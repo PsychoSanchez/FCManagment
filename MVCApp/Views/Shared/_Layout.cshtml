@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Football Club Managment Application</title>
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+    <title>@ViewBag.Title - Football Club MVC</title>
+    @Styles.Render("~/Content/bootstrap.min.css")
+    @Scripts.Render("~/bundles/modernizr")
+    @* @Scripts.Render("~/Content/Site.css");*@
+    <style>
+        body {
+            /*background-image: url("App_Data/page.png");*/
+            /*background: white url('../../Content/page.PNG');*/
+            background: white url('../../Content/Setebg.jpg') center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            /*background-image: url('../../Content/Setebg.jpg');*/
+            /*background-image: url('../../Content/WP_20150829_008.jpg');*/
+            /*-moz-background-size: 100%;
+            -webkit-background-size: 100%;
+            -o-background-size: 100%;
+            background-size: 100%;*/
+            /* Путь к фоновому изображению */
+            /*background-color: #c7b39b;*/ /* Цвет фона */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Football Club", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Главная", "Index", "Home")</li>
+                    <li>@Html.ActionLink("О приложении", "About", "Home")</li>
+                    <li>@Html.ActionLink("Профиль", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Упралвние клубом", "Index", "Players")</li>
+                    <li>@Html.ActionLink("Сообщения", "Contact", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content" style="margin-top: 100px; background-color:white; border-radius: 5px;">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Aronov Alexander MVC App</p>
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

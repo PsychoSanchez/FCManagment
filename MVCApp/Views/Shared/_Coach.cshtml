@@ -1,0 +1,42 @@
+﻿@model IEnumerable<MVCApp.Coachs>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                Полное имя
+            </th>
+            <th>
+               Возраст
+            </th>
+            <th>
+                Должность
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mans.MiddleName) @Html.DisplayFor(modelItem => item.Mans.FirstName) @Html.DisplayFor(modelItem => item.Mans.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mans.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mans.PersonalPosition.Description)
+                </td>
+                <td>
+                    <button id="Edit" class="btn btn-default btn-xs" value=@item.Mans.ManID name="ManID">Редактировать</button>
+                </td>
+                <td>
+                    <form action="/Players/RemovePlayerActionResult" method="post">
+                        <button id="Delete" class="btn btn-danger btn-xs" value=@item.Mans.ManID name="ManID">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,254 @@
+﻿@*@model IEnumerable<MVCApp.Mans>
+
+    @{
+        ViewBag.Title = "Index";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <h2>Index</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MiddleName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Birthday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Height)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Weight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Adress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Photo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDeleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nationaites.Nationality)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalPosition.Description)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MiddleName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Birthday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Photo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDeleted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nationaites.Nationality)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonalPosition.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.ManID }) |
+                @Html.ActionLink("Details", "Details", new { id=item.ManID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.ManID })
+            </td>
+        </tr>
+    }
+
+    </table>*@
+@model dynamic
+
+@{
+    ViewBag.Title = "Управление клубом";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var ajaxtabpage = new AjaxOptions()
+    {
+        HttpMethod = "GET",
+        UpdateTargetId = "DataTable",
+        LoadingElementId = "progressbar",
+        OnBegin = "ClearTable",
+        OnComplete = "FadeInTable",
+        OnFailure = "AddAlert",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementDuration = 0
+    };
+}
+@Scripts.Render("~/Scripts/jquery-2.2.3.min.js")
+@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+
+
+<div class="container-fluid">
+    <h1>Управление персоналом</h1>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tabbable" id="tabs-864236">
+                <ul class="nav nav-tabs navbar-right" id="nope">
+                    <li class="active">
+                        @Ajax.ActionLink("Весь персонал", "All", ajaxtabpage)
+                    </li>
+                    <li>
+                        @Ajax.ActionLink("Игроки", "PlayersTab", ajaxtabpage)
+                    </li>
+                    <li>
+                        @Ajax.ActionLink("Тренеры", "CoachTab", ajaxtabpage)
+                    </li>
+                    <li>
+                        @Ajax.ActionLink("Агенты", "AgentsTab", ajaxtabpage)
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <div id="DataTable">
+                            @Html.Action("All");
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="progress" id="progressbar" style="display:none; margin-top:25px;">
+        <div class="progress-bar progress-bar-striped active" role="progressbar"
+             aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+        </div>
+    </div>
+    <div id="alert_placeholder" style="margin-top:25px;">
+
+    </div>
+
+</div>
+<script>
+    function ClearTable() {
+        $("#DataTable").empty();
+        $("#alert_placeholder").empty();
+    }
+    function FadeInTable() {
+        $("#DataTable").fadeOut(0).fadeIn(700);
+    }
+    function AddAlert() {
+        $("#alert_placeholder").empty().html('<div class="alert alert-danger fade in"><strong>Упс!</strong> Произошла ошибка, повторите попытку позже.</div>').fadeOut(0).fadeIn(500);
+    }
+</script>
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+        $("#nope").find("li").click(function () {
+            $(this).parent().find("li").removeClass("active")
+            $(this).addClass("active")
+        })
+        $(".input-required").on("focusout",
+        function () {
+            if (this.value === "") {
+
+                $(this).parent().addClass("has-error")
+                $(this).next().addClass("glyphicon-remove")
+            }
+            else {
+                $(this).parent().removeClass("has-error")
+                $(this).next().removeClass("glyphicon-remove")
+            }
+        })
+    })
+</script>
+<script>
+    $(document).ready(
+    function () {
+        $("input[name='Height'], input[name='Weight'],  input[name='PlayerNumber']").on("focusout", function () {
+            if (this.value === "") {
+
+            }
+            else
+                if (this.value > parseInt($(this).attr("max"))) {
+                    this.value = parseInt($(this).attr("max"));
+                }
+                else
+                    if (this.value < parseInt($(this).attr("min"))) {
+                        this.value = parseInt($(this).attr("min"));
+                    }
+        })
+        $("#DataTable").fadeOut(0).fadeIn(700);
+        var now = new Date();
+        var month = (now.getMonth() + 1);
+        var day = now.getDate();
+        if (month < 10)
+            month = "0" + month;
+        if (day < 10)
+            day = "0" + day;
+        var today = now.getFullYear() + '-' + month + '-' + day;
+        $('#ContractStart').val(today);
+        $('#ContractEnd').val(today);
+
+        var form = document.getElementById('AddPlayerButton');
+        try {
+            if (form.addEventListener("submit", someFunction, false))
+                form.onsubmit();
+        } catch (e) {
+            form.attachEvent("onsubmit", someFunction); //Internet Explorer 8-
+        }
+        //var event = $._data($("#AddPlayerButton")[0], "events");
+        //var kek = $("#AddPlayerButton")[0].onmousedown;
+        function someFunction() {
+            if ($("#AddPlayerModal div.has-error").length > 0) {
+                return false;
+            }
+            var input = true;
+            $("#AddPlayerModal input").each(function (index, el) {
+                if (el.value === "") {
+                    input = false;
+                    el.parent().addClass("has-error");
+                    el.next().addClass("glyphicon-remove");
+                }
+            })
+            return input;
+            //kek();
+        }
+    });
+</script>

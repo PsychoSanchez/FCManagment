@@ -1,0 +1,83 @@
+﻿@model MVCApp.Players
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Players</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TransferCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransferCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TransferStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransferStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NationalTeamInvite)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NationalTeamInvite)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Injury)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Injury)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlayerNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlayerNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlayerPositionsID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlayerPositionsID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShirtName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShirtName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mans.MiddleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mans.MiddleName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PlayerID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

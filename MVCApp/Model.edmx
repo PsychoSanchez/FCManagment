@@ -1,0 +1,1274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище FCModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Agents">
+          <Key>
+            <PropertyRef Name="AgentID" />
+          </Key>
+          <Property Name="AgentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ManID" Type="int" />
+          <Property Name="Info" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Coachs">
+          <Key>
+            <PropertyRef Name="CoachID" />
+          </Key>
+          <Property Name="CoachID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ManID" Type="int" />
+          <Property Name="Info" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="CoachSquad">
+          <Key>
+            <PropertyRef Name="CoachSquadID" />
+          </Key>
+          <Property Name="CoachSquadID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CoachID" Type="int" />
+          <Property Name="TrainingID" Type="int" />
+          <Property Name="MatchID" Type="int" />
+        </EntityType>
+        <EntityType Name="Contracts">
+          <Key>
+            <PropertyRef Name="ContractID" />
+          </Key>
+          <Property Name="ContractID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="ExpireDate" Type="date" />
+          <Property Name="Money" Type="money" />
+          <Property Name="PassportNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="Tax" Type="money" />
+          <Property Name="PlayerID" Type="int" />
+          <Property Name="CoachID" Type="int" />
+          <Property Name="AgentID" Type="int" />
+          <Property Name="ContractTypeID" Type="int" />
+        </EntityType>
+        <EntityType Name="ContractTypeID">
+          <Key>
+            <PropertyRef Name="ContractTypeID" />
+          </Key>
+          <Property Name="ContractTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ContractTypeDescription" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Mans">
+          <Key>
+            <PropertyRef Name="ManID" />
+          </Key>
+          <Property Name="ManID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Age" Type="smallint" />
+          <Property Name="Birthday" Type="date" />
+          <Property Name="NationalityID" Type="int" Nullable="false" />
+          <Property Name="Height" Type="smallint" />
+          <Property Name="Weight" Type="smallint" />
+          <Property Name="Adress" Type="nvarchar" MaxLength="150" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="25" />
+          <Property Name="Photo" Type="image" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="PersonalPositionID" Type="int" />
+        </EntityType>
+        <EntityType Name="Matches">
+          <Key>
+            <PropertyRef Name="MatchID" />
+          </Key>
+          <Property Name="MatchID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TournamentID" Type="int" />
+          <Property Name="Stadium" Type="nvarchar" MaxLength="50" />
+          <Property Name="Home" Type="bit" />
+          <Property Name="Result" Type="nvarchar" MaxLength="20" />
+          <Property Name="Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Nationaites">
+          <Key>
+            <PropertyRef Name="NationalityID" />
+          </Key>
+          <Property Name="NationalityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nationality" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="PersonalPosition">
+          <Key>
+            <PropertyRef Name="PersonalPositionID" />
+          </Key>
+          <Property Name="PersonalPositionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PlayerPositions">
+          <Key>
+            <PropertyRef Name="PlayerPositionID" />
+          </Key>
+          <Property Name="PlayerPositionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlayerID" Type="int" />
+          <Property Name="PositionID" Type="int" />
+        </EntityType>
+        <EntityType Name="Players">
+          <Key>
+            <PropertyRef Name="PlayerID" />
+          </Key>
+          <Property Name="PlayerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ManID" Type="int" Nullable="false" />
+          <Property Name="TransferCost" Type="money" />
+          <Property Name="TransferStatus" Type="bit" />
+          <Property Name="NationalTeamInvite" Type="bit" />
+          <Property Name="Injury" Type="bit" />
+          <Property Name="PlayerNumber" Type="smallint" />
+          <Property Name="PlayerPositionsID" Type="int" />
+          <Property Name="ShirtName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PlayerSquad">
+          <Key>
+            <PropertyRef Name="PlayerSquadID" />
+          </Key>
+          <Property Name="PlayerSquadID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlayerID" Type="int" />
+          <Property Name="MatchID" Type="int" />
+          <Property Name="TrainingID" Type="int" />
+          <Property Name="Goals" Type="smallint" />
+          <Property Name="Assists" Type="smallint" />
+          <Property Name="Fouls" Type="smallint" />
+          <Property Name="YellowCards" Type="smallint" />
+          <Property Name="RedCards" Type="bit" />
+          <Property Name="TimeOnField" Type="time" Precision="7" />
+          <Property Name="StartMinute" Type="smallint" />
+          <Property Name="Distanse" Type="decimal" Precision="4" Scale="3" />
+          <Property Name="MVP" Type="bit" />
+        </EntityType>
+        <EntityType Name="Positions">
+          <Key>
+            <PropertyRef Name="PositionID" />
+          </Key>
+          <Property Name="PositionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PositionName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Tournaments">
+          <Key>
+            <PropertyRef Name="TournamentID" />
+          </Key>
+          <Property Name="TournamentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" />
+          <Property Name="Season" Type="nvarchar" MaxLength="20" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Trainings">
+          <Key>
+            <PropertyRef Name="TrainingID" />
+          </Key>
+          <Property Name="TrainingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="Duration" Type="int" />
+          <Property Name="TrainInfo" Type="nvarchar" MaxLength="250" />
+          <Property Name="Address" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "FC.dbo.PlayerInfo" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="PlayerInfo">
+          <Key>
+            <PropertyRef Name="PlayerID" />
+            <PropertyRef Name="ManID" />
+            <PropertyRef Name="MiddleName" />
+            <PropertyRef Name="IsDeleted" />
+          </Key>
+          <Property Name="PlayerID" Type="int" Nullable="false" />
+          <Property Name="ManID" Type="int" Nullable="false" />
+          <Property Name="TransferCost" Type="money" />
+          <Property Name="PlayerNumber" Type="smallint" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Age" Type="smallint" />
+          <Property Name="Birthday" Type="date" />
+          <Property Name="Height" Type="smallint" />
+          <Property Name="Weight" Type="smallint" />
+          <Property Name="Nationality" Type="nvarchar" MaxLength="100" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="ExpireDate" Type="date" />
+          <Property Name="Money" Type="money" />
+          <Property Name="ContractTypeDescription" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContractTypeID" Type="int" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Agents_Mans">
+          <End Role="Mans" Type="Self.Mans" Multiplicity="0..1" />
+          <End Role="Agents" Type="Self.Agents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mans">
+              <PropertyRef Name="ManID" />
+            </Principal>
+            <Dependent Role="Agents">
+              <PropertyRef Name="ManID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Coachs_Mans">
+          <End Role="Mans" Type="Self.Mans" Multiplicity="0..1" />
+          <End Role="Coachs" Type="Self.Coachs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mans">
+              <PropertyRef Name="ManID" />
+            </Principal>
+            <Dependent Role="Coachs">
+              <PropertyRef Name="ManID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CoachSquad_Coachs">
+          <End Role="Coachs" Type="Self.Coachs" Multiplicity="0..1" />
+          <End Role="CoachSquad" Type="Self.CoachSquad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coachs">
+              <PropertyRef Name="CoachID" />
+            </Principal>
+            <Dependent Role="CoachSquad">
+              <PropertyRef Name="CoachID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CoachSquad_Matches">
+          <End Role="Matches" Type="Self.Matches" Multiplicity="0..1" />
+          <End Role="CoachSquad" Type="Self.CoachSquad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Matches">
+              <PropertyRef Name="MatchID" />
+            </Principal>
+            <Dependent Role="CoachSquad">
+              <PropertyRef Name="MatchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CoachSquad_Trainings">
+          <End Role="Trainings" Type="Self.Trainings" Multiplicity="0..1" />
+          <End Role="CoachSquad" Type="Self.CoachSquad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trainings">
+              <PropertyRef Name="TrainingID" />
+            </Principal>
+            <Dependent Role="CoachSquad">
+              <PropertyRef Name="TrainingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contracts_Agents">
+          <End Role="Agents" Type="Self.Agents" Multiplicity="0..1" />
+          <End Role="Contracts" Type="Self.Contracts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agents">
+              <PropertyRef Name="AgentID" />
+            </Principal>
+            <Dependent Role="Contracts">
+              <PropertyRef Name="AgentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contracts_Coachs">
+          <End Role="Coachs" Type="Self.Coachs" Multiplicity="0..1" />
+          <End Role="Contracts" Type="Self.Contracts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coachs">
+              <PropertyRef Name="CoachID" />
+            </Principal>
+            <Dependent Role="Contracts">
+              <PropertyRef Name="CoachID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contracts_ContractTypeID">
+          <End Role="ContractTypeID" Type="Self.ContractTypeID" Multiplicity="0..1" />
+          <End Role="Contracts" Type="Self.Contracts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractTypeID">
+              <PropertyRef Name="ContractTypeID" />
+            </Principal>
+            <Dependent Role="Contracts">
+              <PropertyRef Name="ContractTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contracts_Players">
+          <End Role="Players" Type="Self.Players" Multiplicity="0..1" />
+          <End Role="Contracts" Type="Self.Contracts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Players">
+              <PropertyRef Name="PlayerID" />
+            </Principal>
+            <Dependent Role="Contracts">
+              <PropertyRef Name="PlayerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Mans_Nationaites">
+          <End Role="Nationaites" Type="Self.Nationaites" Multiplicity="1" />
+          <End Role="Mans" Type="Self.Mans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nationaites">
+              <PropertyRef Name="NationalityID" />
+            </Principal>
+            <Dependent Role="Mans">
+              <PropertyRef Name="NationalityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Mans_PersonalPosition">
+          <End Role="PersonalPosition" Type="Self.PersonalPosition" Multiplicity="0..1" />
+          <End Role="Mans" Type="Self.Mans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonalPosition">
+              <PropertyRef Name="PersonalPositionID" />
+            </Principal>
+            <Dependent Role="Mans">
+              <PropertyRef Name="PersonalPositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Matches_Tournaments">
+          <End Role="Tournaments" Type="Self.Tournaments" Multiplicity="0..1" />
+          <End Role="Matches" Type="Self.Matches" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tournaments">
+              <PropertyRef Name="TournamentID" />
+            </Principal>
+            <Dependent Role="Matches">
+              <PropertyRef Name="TournamentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlayerPositions_Players">
+          <End Role="Players" Type="Self.Players" Multiplicity="0..1" />
+          <End Role="PlayerPositions" Type="Self.PlayerPositions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Players">
+              <PropertyRef Name="PlayerID" />
+            </Principal>
+            <Dependent Role="PlayerPositions">
+              <PropertyRef Name="PlayerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlayerPositions_Positions">
+          <End Role="Positions" Type="Self.Positions" Multiplicity="0..1" />
+          <End Role="PlayerPositions" Type="Self.PlayerPositions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Positions">
+              <PropertyRef Name="PositionID" />
+            </Principal>
+            <Dependent Role="PlayerPositions">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Players_Mans">
+          <End Role="Mans" Type="Self.Mans" Multiplicity="1" />
+          <End Role="Players" Type="Self.Players" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mans">
+              <PropertyRef Name="ManID" />
+            </Principal>
+            <Dependent Role="Players">
+              <PropertyRef Name="ManID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlayerSquad_Matches">
+          <End Role="Matches" Type="Self.Matches" Multiplicity="0..1" />
+          <End Role="PlayerSquad" Type="Self.PlayerSquad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Matches">
+              <PropertyRef Name="MatchID" />
+            </Principal>
+            <Dependent Role="PlayerSquad">
+              <PropertyRef Name="MatchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlayerSquad_Players">
+          <End Role="Players" Type="Self.Players" Multiplicity="0..1" />
+          <End Role="PlayerSquad" Type="Self.PlayerSquad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Players">
+              <PropertyRef Name="PlayerID" />
+            </Principal>
+            <Dependent Role="PlayerSquad">
+              <PropertyRef Name="PlayerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlayerSquad_Trainings">
+          <End Role="Trainings" Type="Self.Trainings" Multiplicity="0..1" />
+          <End Role="PlayerSquad" Type="Self.PlayerSquad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trainings">
+              <PropertyRef Name="TrainingID" />
+            </Principal>
+            <Dependent Role="PlayerSquad">
+              <PropertyRef Name="TrainingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище FCModelContainer">
+          <EntitySet Name="Agents" EntityType="Self.Agents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Coachs" EntityType="Self.Coachs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CoachSquad" EntityType="Self.CoachSquad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contracts" EntityType="Self.Contracts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContractTypeID" EntityType="Self.ContractTypeID" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mans" EntityType="Self.Mans" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Matches" EntityType="Self.Matches" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Nationaites" EntityType="Self.Nationaites" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PersonalPosition" EntityType="Self.PersonalPosition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlayerPositions" EntityType="Self.PlayerPositions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Players" EntityType="Self.Players" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlayerSquad" EntityType="Self.PlayerSquad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Positions" EntityType="Self.Positions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tournaments" EntityType="Self.Tournaments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Trainings" EntityType="Self.Trainings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlayerInfo" EntityType="Self.PlayerInfo" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PlayerInfo].[PlayerID] AS [PlayerID], 
+    [PlayerInfo].[ManID] AS [ManID], 
+    [PlayerInfo].[TransferCost] AS [TransferCost], 
+    [PlayerInfo].[PlayerNumber] AS [PlayerNumber], 
+    [PlayerInfo].[MiddleName] AS [MiddleName], 
+    [PlayerInfo].[FirstName] AS [FirstName], 
+    [PlayerInfo].[LastName] AS [LastName], 
+    [PlayerInfo].[Age] AS [Age], 
+    [PlayerInfo].[Birthday] AS [Birthday], 
+    [PlayerInfo].[Height] AS [Height], 
+    [PlayerInfo].[Weight] AS [Weight], 
+    [PlayerInfo].[Nationality] AS [Nationality], 
+    [PlayerInfo].[StartDate] AS [StartDate], 
+    [PlayerInfo].[ExpireDate] AS [ExpireDate], 
+    [PlayerInfo].[Money] AS [Money], 
+    [PlayerInfo].[ContractTypeDescription] AS [ContractTypeDescription], 
+    [PlayerInfo].[ContractTypeID] AS [ContractTypeID], 
+    [PlayerInfo].[IsDeleted] AS [IsDeleted]
+    FROM [dbo].[PlayerInfo] AS [PlayerInfo]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Agents_Mans" Association="Self.FK_Agents_Mans">
+            <End Role="Mans" EntitySet="Mans" />
+            <End Role="Agents" EntitySet="Agents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Coachs_Mans" Association="Self.FK_Coachs_Mans">
+            <End Role="Mans" EntitySet="Mans" />
+            <End Role="Coachs" EntitySet="Coachs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CoachSquad_Coachs" Association="Self.FK_CoachSquad_Coachs">
+            <End Role="Coachs" EntitySet="Coachs" />
+            <End Role="CoachSquad" EntitySet="CoachSquad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CoachSquad_Matches" Association="Self.FK_CoachSquad_Matches">
+            <End Role="Matches" EntitySet="Matches" />
+            <End Role="CoachSquad" EntitySet="CoachSquad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CoachSquad_Trainings" Association="Self.FK_CoachSquad_Trainings">
+            <End Role="Trainings" EntitySet="Trainings" />
+            <End Role="CoachSquad" EntitySet="CoachSquad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contracts_Agents" Association="Self.FK_Contracts_Agents">
+            <End Role="Agents" EntitySet="Agents" />
+            <End Role="Contracts" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contracts_Coachs" Association="Self.FK_Contracts_Coachs">
+            <End Role="Coachs" EntitySet="Coachs" />
+            <End Role="Contracts" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contracts_ContractTypeID" Association="Self.FK_Contracts_ContractTypeID">
+            <End Role="ContractTypeID" EntitySet="ContractTypeID" />
+            <End Role="Contracts" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contracts_Players" Association="Self.FK_Contracts_Players">
+            <End Role="Players" EntitySet="Players" />
+            <End Role="Contracts" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Mans_Nationaites" Association="Self.FK_Mans_Nationaites">
+            <End Role="Nationaites" EntitySet="Nationaites" />
+            <End Role="Mans" EntitySet="Mans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Mans_PersonalPosition" Association="Self.FK_Mans_PersonalPosition">
+            <End Role="PersonalPosition" EntitySet="PersonalPosition" />
+            <End Role="Mans" EntitySet="Mans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Matches_Tournaments" Association="Self.FK_Matches_Tournaments">
+            <End Role="Tournaments" EntitySet="Tournaments" />
+            <End Role="Matches" EntitySet="Matches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlayerPositions_Players" Association="Self.FK_PlayerPositions_Players">
+            <End Role="Players" EntitySet="Players" />
+            <End Role="PlayerPositions" EntitySet="PlayerPositions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlayerPositions_Positions" Association="Self.FK_PlayerPositions_Positions">
+            <End Role="Positions" EntitySet="Positions" />
+            <End Role="PlayerPositions" EntitySet="PlayerPositions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Players_Mans" Association="Self.FK_Players_Mans">
+            <End Role="Mans" EntitySet="Mans" />
+            <End Role="Players" EntitySet="Players" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlayerSquad_Matches" Association="Self.FK_PlayerSquad_Matches">
+            <End Role="Matches" EntitySet="Matches" />
+            <End Role="PlayerSquad" EntitySet="PlayerSquad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlayerSquad_Players" Association="Self.FK_PlayerSquad_Players">
+            <End Role="Players" EntitySet="Players" />
+            <End Role="PlayerSquad" EntitySet="PlayerSquad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlayerSquad_Trainings" Association="Self.FK_PlayerSquad_Trainings">
+            <End Role="Trainings" EntitySet="Trainings" />
+            <End Role="PlayerSquad" EntitySet="PlayerSquad" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="FCEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Agents" EntityType="FCModel.Agents" />
+          <EntitySet Name="CoachSquad" EntityType="FCModel.CoachSquad" />
+          <EntitySet Name="Contracts" EntityType="FCModel.Contracts" />
+          <EntitySet Name="ContractTypeID" EntityType="FCModel.ContractTypeID" />
+          <EntitySet Name="Mans" EntityType="FCModel.Mans" />
+          <EntitySet Name="Matches" EntityType="FCModel.Matches" />
+          <EntitySet Name="Nationaites" EntityType="FCModel.Nationaites" />
+          <EntitySet Name="PersonalPosition" EntityType="FCModel.PersonalPosition" />
+          <EntitySet Name="PlayerPositions" EntityType="FCModel.PlayerPositions" />
+          <EntitySet Name="Players" EntityType="FCModel.Players" />
+          <EntitySet Name="PlayerSquad" EntityType="FCModel.PlayerSquad" />
+          <EntitySet Name="Positions" EntityType="FCModel.Positions" />
+          <EntitySet Name="Tournaments" EntityType="FCModel.Tournaments" />
+          <EntitySet Name="Trainings" EntityType="FCModel.Trainings" />
+          <EntitySet Name="PlayerInfo" EntityType="FCModel.PlayerInfo" />
+          <AssociationSet Name="FK_Agents_Mans" Association="FCModel.FK_Agents_Mans">
+            <End Role="Mans" EntitySet="Mans" />
+            <End Role="Agents" EntitySet="Agents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contracts_Agents" Association="FCModel.FK_Contracts_Agents">
+            <End Role="Agents" EntitySet="Agents" />
+            <End Role="Contracts" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CoachSquad_Matches" Association="FCModel.FK_CoachSquad_Matches">
+            <End Role="Matches" EntitySet="Matches" />
+            <End Role="CoachSquad" EntitySet="CoachSquad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CoachSquad_Trainings" Association="FCModel.FK_CoachSquad_Trainings">
+            <End Role="Trainings" EntitySet="Trainings" />
+            <End Role="CoachSquad" EntitySet="CoachSquad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contracts_ContractTypeID" Association="FCModel.FK_Contracts_ContractTypeID">
+            <End Role="ContractTypeID" EntitySet="ContractTypeID" />
+            <End Role="Contracts" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contracts_Players" Association="FCModel.FK_Contracts_Players">
+            <End Role="Players" EntitySet="Players" />
+            <End Role="Contracts" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Mans_Nationaites" Association="FCModel.FK_Mans_Nationaites">
+            <End Role="Nationaites" EntitySet="Nationaites" />
+            <End Role="Mans" EntitySet="Mans" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Players_Mans" Association="FCModel.FK_Players_Mans">
+            <End Role="Mans" EntitySet="Mans" />
+            <End Role="Players" EntitySet="Players" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Matches_Tournaments" Association="FCModel.FK_Matches_Tournaments">
+            <End Role="Tournaments" EntitySet="Tournaments" />
+            <End Role="Matches" EntitySet="Matches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlayerSquad_Matches" Association="FCModel.FK_PlayerSquad_Matches">
+            <End Role="Matches" EntitySet="Matches" />
+            <End Role="PlayerSquad" EntitySet="PlayerSquad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlayerPositions_Players" Association="FCModel.FK_PlayerPositions_Players">
+            <End Role="Players" EntitySet="Players" />
+            <End Role="PlayerPositions" EntitySet="PlayerPositions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlayerPositions_Positions" Association="FCModel.FK_PlayerPositions_Positions">
+            <End Role="Positions" EntitySet="Positions" />
+            <End Role="PlayerPositions" EntitySet="PlayerPositions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlayerSquad_Players" Association="FCModel.FK_PlayerSquad_Players">
+            <End Role="Players" EntitySet="Players" />
+            <End Role="PlayerSquad" EntitySet="PlayerSquad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlayerSquad_Trainings" Association="FCModel.FK_PlayerSquad_Trainings">
+            <End Role="Trainings" EntitySet="Trainings" />
+            <End Role="PlayerSquad" EntitySet="PlayerSquad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Mans_PersonalPosition" Association="FCModel.FK_Mans_PersonalPosition">
+            <End Role="PersonalPosition" EntitySet="PersonalPosition" />
+            <End Role="Mans" EntitySet="Mans" />
+          </AssociationSet>
+          <EntitySet Name="Coachs" EntityType="FCModel.Coachs" />
+          <AssociationSet Name="FK_Coachs_Mans" Association="FCModel.FK_Coachs_Mans">
+            <End Role="Mans" EntitySet="Mans" />
+            <End Role="Coachs" EntitySet="Coachs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CoachSquad_Coachs" Association="FCModel.FK_CoachSquad_Coachs">
+            <End Role="Coachs" EntitySet="Coachs" />
+            <End Role="CoachSquad" EntitySet="CoachSquad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contracts_Coachs" Association="FCModel.FK_Contracts_Coachs">
+            <End Role="Coachs" EntitySet="Coachs" />
+            <End Role="Contracts" EntitySet="Contracts" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Agents">
+          <Key>
+            <PropertyRef Name="AgentID" />
+          </Key>
+          <Property Name="AgentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ManID" Type="Int32" />
+          <Property Name="Info" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Mans" Relationship="FCModel.FK_Agents_Mans" FromRole="Agents" ToRole="Mans" />
+          <NavigationProperty Name="Contracts" Relationship="FCModel.FK_Contracts_Agents" FromRole="Agents" ToRole="Contracts" />
+        </EntityType>
+        <EntityType Name="CoachSquad">
+          <Key>
+            <PropertyRef Name="CoachSquadID" />
+          </Key>
+          <Property Name="CoachSquadID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CoachID" Type="Int32" />
+          <Property Name="TrainingID" Type="Int32" />
+          <Property Name="MatchID" Type="Int32" />
+          <NavigationProperty Name="Matches" Relationship="FCModel.FK_CoachSquad_Matches" FromRole="CoachSquad" ToRole="Matches" />
+          <NavigationProperty Name="Trainings" Relationship="FCModel.FK_CoachSquad_Trainings" FromRole="CoachSquad" ToRole="Trainings" />
+          <NavigationProperty Name="Coachs" Relationship="FCModel.FK_CoachSquad_Coachs" FromRole="CoachSquad" ToRole="Coachs" />
+        </EntityType>
+        <EntityType Name="Contracts">
+          <Key>
+            <PropertyRef Name="ContractID" />
+          </Key>
+          <Property Name="ContractID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="ExpireDate" Type="DateTime" Precision="0" />
+          <Property Name="Money" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="PassportNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Tax" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="PlayerID" Type="Int32" />
+          <Property Name="CoachID" Type="Int32" />
+          <Property Name="AgentID" Type="Int32" />
+          <Property Name="ContractTypeID" Type="Int32" />
+          <NavigationProperty Name="Agents" Relationship="FCModel.FK_Contracts_Agents" FromRole="Contracts" ToRole="Agents" />
+          <NavigationProperty Name="ContractTypeID1" Relationship="FCModel.FK_Contracts_ContractTypeID" FromRole="Contracts" ToRole="ContractTypeID" />
+          <NavigationProperty Name="Players" Relationship="FCModel.FK_Contracts_Players" FromRole="Contracts" ToRole="Players" />
+          <NavigationProperty Name="Coachs" Relationship="FCModel.FK_Contracts_Coachs" FromRole="Contracts" ToRole="Coachs" />
+        </EntityType>
+        <EntityType Name="ContractTypeID">
+          <Key>
+            <PropertyRef Name="ContractTypeID1" />
+          </Key>
+          <Property Name="ContractTypeID1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ContractTypeDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Contracts" Relationship="FCModel.FK_Contracts_ContractTypeID" FromRole="ContractTypeID" ToRole="Contracts" />
+        </EntityType>
+        <EntityType Name="Mans">
+          <Key>
+            <PropertyRef Name="ManID" />
+          </Key>
+          <Property Name="ManID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MiddleName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Age" Type="Int16" />
+          <Property Name="Birthday" Type="DateTime" Precision="0" />
+          <Property Name="NationalityID" Type="Int32" Nullable="false" />
+          <Property Name="Height" Type="Int16" />
+          <Property Name="Weight" Type="Int16" />
+          <Property Name="Adress" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Agents" Relationship="FCModel.FK_Agents_Mans" FromRole="Mans" ToRole="Agents" />
+          <NavigationProperty Name="Nationaites" Relationship="FCModel.FK_Mans_Nationaites" FromRole="Mans" ToRole="Nationaites" />
+          <NavigationProperty Name="Players" Relationship="FCModel.FK_Players_Mans" FromRole="Mans" ToRole="Players" />
+          <Property Name="PersonalPositionID" Type="Int32" />
+          <NavigationProperty Name="PersonalPosition" Relationship="FCModel.FK_Mans_PersonalPosition" FromRole="Mans" ToRole="PersonalPosition" />
+          <NavigationProperty Name="Coachs" Relationship="FCModel.FK_Coachs_Mans" FromRole="Mans" ToRole="Coachs" />
+        </EntityType>
+        <EntityType Name="Matches">
+          <Key>
+            <PropertyRef Name="MatchID" />
+          </Key>
+          <Property Name="MatchID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TournamentID" Type="Int32" />
+          <Property Name="Stadium" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Home" Type="Boolean" />
+          <Property Name="Result" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CoachSquad" Relationship="FCModel.FK_CoachSquad_Matches" FromRole="Matches" ToRole="CoachSquad" />
+          <NavigationProperty Name="Tournaments" Relationship="FCModel.FK_Matches_Tournaments" FromRole="Matches" ToRole="Tournaments" />
+          <NavigationProperty Name="PlayerSquad" Relationship="FCModel.FK_PlayerSquad_Matches" FromRole="Matches" ToRole="PlayerSquad" />
+        </EntityType>
+        <EntityType Name="Nationaites">
+          <Key>
+            <PropertyRef Name="NationalityID" />
+          </Key>
+          <Property Name="NationalityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nationality" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Mans" Relationship="FCModel.FK_Mans_Nationaites" FromRole="Nationaites" ToRole="Mans" />
+        </EntityType>
+        <EntityType Name="PersonalPosition">
+          <Key>
+            <PropertyRef Name="PersonalPositionID" />
+          </Key>
+          <Property Name="PersonalPositionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Mans" Relationship="FCModel.FK_Mans_PersonalPosition" FromRole="PersonalPosition" ToRole="Mans" />
+        </EntityType>
+        <EntityType Name="PlayerPositions">
+          <Key>
+            <PropertyRef Name="PlayerPositionID" />
+          </Key>
+          <Property Name="PlayerPositionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlayerID" Type="Int32" />
+          <Property Name="PositionID" Type="Int32" />
+          <NavigationProperty Name="Players" Relationship="FCModel.FK_PlayerPositions_Players" FromRole="PlayerPositions" ToRole="Players" />
+          <NavigationProperty Name="Positions" Relationship="FCModel.FK_PlayerPositions_Positions" FromRole="PlayerPositions" ToRole="Positions" />
+        </EntityType>
+        <EntityType Name="Players">
+          <Key>
+            <PropertyRef Name="PlayerID" />
+          </Key>
+          <Property Name="PlayerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ManID" Type="Int32" Nullable="false" />
+          <Property Name="TransferCost" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TransferStatus" Type="Boolean" />
+          <Property Name="NationalTeamInvite" Type="Boolean" />
+          <Property Name="Injury" Type="Boolean" />
+          <Property Name="PlayerNumber" Type="Int16" />
+          <Property Name="PlayerPositionsID" Type="Int32" />
+          <Property Name="ShirtName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Contracts" Relationship="FCModel.FK_Contracts_Players" FromRole="Players" ToRole="Contracts" />
+          <NavigationProperty Name="Mans" Relationship="FCModel.FK_Players_Mans" FromRole="Players" ToRole="Mans" />
+          <NavigationProperty Name="PlayerPositions" Relationship="FCModel.FK_PlayerPositions_Players" FromRole="Players" ToRole="PlayerPositions" />
+          <NavigationProperty Name="PlayerSquad" Relationship="FCModel.FK_PlayerSquad_Players" FromRole="Players" ToRole="PlayerSquad" />
+        </EntityType>
+        <EntityType Name="PlayerSquad">
+          <Key>
+            <PropertyRef Name="PlayerSquadID" />
+          </Key>
+          <Property Name="PlayerSquadID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlayerID" Type="Int32" />
+          <Property Name="MatchID" Type="Int32" />
+          <Property Name="TrainingID" Type="Int32" />
+          <Property Name="Goals" Type="Int16" />
+          <Property Name="Assists" Type="Int16" />
+          <Property Name="Fouls" Type="Int16" />
+          <Property Name="YellowCards" Type="Int16" />
+          <Property Name="RedCards" Type="Boolean" />
+          <Property Name="TimeOnField" Type="Time" Precision="7" />
+          <Property Name="StartMinute" Type="Int16" />
+          <Property Name="Distanse" Type="Decimal" Precision="4" Scale="3" />
+          <Property Name="MVP" Type="Boolean" />
+          <NavigationProperty Name="Matches" Relationship="FCModel.FK_PlayerSquad_Matches" FromRole="PlayerSquad" ToRole="Matches" />
+          <NavigationProperty Name="Players" Relationship="FCModel.FK_PlayerSquad_Players" FromRole="PlayerSquad" ToRole="Players" />
+          <NavigationProperty Name="Trainings" Relationship="FCModel.FK_PlayerSquad_Trainings" FromRole="PlayerSquad" ToRole="Trainings" />
+        </EntityType>
+        <EntityType Name="Positions">
+          <Key>
+            <PropertyRef Name="PositionID" />
+          </Key>
+          <Property Name="PositionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PositionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PlayerPositions" Relationship="FCModel.FK_PlayerPositions_Positions" FromRole="Positions" ToRole="PlayerPositions" />
+        </EntityType>
+        <EntityType Name="Tournaments">
+          <Key>
+            <PropertyRef Name="TournamentID" />
+          </Key>
+          <Property Name="TournamentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Season" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Matches" Relationship="FCModel.FK_Matches_Tournaments" FromRole="Tournaments" ToRole="Matches" />
+        </EntityType>
+        <EntityType Name="Trainings">
+          <Key>
+            <PropertyRef Name="TrainingID" />
+          </Key>
+          <Property Name="TrainingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="Duration" Type="Int32" />
+          <Property Name="TrainInfo" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CoachSquad" Relationship="FCModel.FK_CoachSquad_Trainings" FromRole="Trainings" ToRole="CoachSquad" />
+          <NavigationProperty Name="PlayerSquad" Relationship="FCModel.FK_PlayerSquad_Trainings" FromRole="Trainings" ToRole="PlayerSquad" />
+        </EntityType>
+        <EntityType Name="PlayerInfo">
+          <Key>
+            <PropertyRef Name="PlayerID" />
+            <PropertyRef Name="ManID" />
+            <PropertyRef Name="MiddleName" />
+            <PropertyRef Name="IsDeleted" />
+          </Key>
+          <Property Name="PlayerID" Type="Int32" Nullable="false" />
+          <Property Name="ManID" Type="Int32" Nullable="false" />
+          <Property Name="TransferCost" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="PlayerNumber" Type="Int16" />
+          <Property Name="MiddleName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Age" Type="Int16" />
+          <Property Name="Birthday" Type="DateTime" Precision="0" />
+          <Property Name="Height" Type="Int16" />
+          <Property Name="Weight" Type="Int16" />
+          <Property Name="Nationality" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="ExpireDate" Type="DateTime" Precision="0" />
+          <Property Name="Money" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="ContractTypeDescription" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContractTypeID" Type="Int32" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Agents_Mans">
+          <End Type="FCModel.Mans" Role="Mans" Multiplicity="0..1" />
+          <End Type="FCModel.Agents" Role="Agents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mans">
+              <PropertyRef Name="ManID" />
+            </Principal>
+            <Dependent Role="Agents">
+              <PropertyRef Name="ManID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contracts_Agents">
+          <End Type="FCModel.Agents" Role="Agents" Multiplicity="0..1" />
+          <End Type="FCModel.Contracts" Role="Contracts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agents">
+              <PropertyRef Name="AgentID" />
+            </Principal>
+            <Dependent Role="Contracts">
+              <PropertyRef Name="AgentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CoachSquad_Matches">
+          <End Type="FCModel.Matches" Role="Matches" Multiplicity="0..1" />
+          <End Type="FCModel.CoachSquad" Role="CoachSquad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Matches">
+              <PropertyRef Name="MatchID" />
+            </Principal>
+            <Dependent Role="CoachSquad">
+              <PropertyRef Name="MatchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CoachSquad_Trainings">
+          <End Type="FCModel.Trainings" Role="Trainings" Multiplicity="0..1" />
+          <End Type="FCModel.CoachSquad" Role="CoachSquad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trainings">
+              <PropertyRef Name="TrainingID" />
+            </Principal>
+            <Dependent Role="CoachSquad">
+              <PropertyRef Name="TrainingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contracts_ContractTypeID">
+          <End Type="FCModel.ContractTypeID" Role="ContractTypeID" Multiplicity="0..1" />
+          <End Type="FCModel.Contracts" Role="Contracts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractTypeID">
+              <PropertyRef Name="ContractTypeID1" />
+            </Principal>
+            <Dependent Role="Contracts">
+              <PropertyRef Name="ContractTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contracts_Players">
+          <End Type="FCModel.Players" Role="Players" Multiplicity="0..1" />
+          <End Type="FCModel.Contracts" Role="Contracts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Players">
+              <PropertyRef Name="PlayerID" />
+            </Principal>
+            <Dependent Role="Contracts">
+              <PropertyRef Name="PlayerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Mans_Nationaites">
+          <End Type="FCModel.Nationaites" Role="Nationaites" Multiplicity="1" />
+          <End Type="FCModel.Mans" Role="Mans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nationaites">
+              <PropertyRef Name="NationalityID" />
+            </Principal>
+            <Dependent Role="Mans">
+              <PropertyRef Name="NationalityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Players_Mans">
+          <End Type="FCModel.Mans" Role="Mans" Multiplicity="1" />
+          <End Type="FCModel.Players" Role="Players" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mans">
+              <PropertyRef Name="ManID" />
+            </Principal>
+            <Dependent Role="Players">
+              <PropertyRef Name="ManID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Matches_Tournaments">
+          <End Type="FCModel.Tournaments" Role="Tournaments" Multiplicity="0..1" />
+          <End Type="FCModel.Matches" Role="Matches" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tournaments">
+              <PropertyRef Name="TournamentID" />
+            </Principal>
+            <Dependent Role="Matches">
+              <PropertyRef Name="TournamentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlayerSquad_Matches">
+          <End Type="FCModel.Matches" Role="Matches" Multiplicity="0..1" />
+          <End Type="FCModel.PlayerSquad" Role="PlayerSquad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Matches">
+              <PropertyRef Name="MatchID" />
+            </Principal>
+            <Dependent Role="PlayerSquad">
+              <PropertyRef Name="MatchID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlayerPositions_Players">
+          <End Type="FCModel.Players" Role="Players" Multiplicity="0..1" />
+          <End Type="FCModel.PlayerPositions" Role="PlayerPositions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Players">
+              <PropertyRef Name="PlayerID" />
+            </Principal>
+            <Dependent Role="PlayerPositions">
+              <PropertyRef Name="PlayerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlayerPositions_Positions">
+          <End Type="FCModel.Positions" Role="Positions" Multiplicity="0..1" />
+          <End Type="FCModel.PlayerPositions" Role="PlayerPositions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Positions">
+              <PropertyRef Name="PositionID" />
+            </Principal>
+            <Dependent Role="PlayerPositions">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlayerSquad_Players">
+          <End Type="FCModel.Players" Role="Players" Multiplicity="0..1" />
+          <End Type="FCModel.PlayerSquad" Role="PlayerSquad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Players">
+              <PropertyRef Name="PlayerID" />
+            </Principal>
+            <Dependent Role="PlayerSquad">
+              <PropertyRef Name="PlayerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlayerSquad_Trainings">
+          <End Type="FCModel.Trainings" Role="Trainings" Multiplicity="0..1" />
+          <End Type="FCModel.PlayerSquad" Role="PlayerSquad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trainings">
+              <PropertyRef Name="TrainingID" />
+            </Principal>
+            <Dependent Role="PlayerSquad">
+              <PropertyRef Name="TrainingID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Mans_PersonalPosition">
+          <End Type="FCModel.PersonalPosition" Role="PersonalPosition" Multiplicity="0..1" />
+          <End Type="FCModel.Mans" Role="Mans" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PersonalPosition">
+              <PropertyRef Name="PersonalPositionID" />
+            </Principal>
+            <Dependent Role="Mans">
+              <PropertyRef Name="PersonalPositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Coachs">
+          <Key>
+            <PropertyRef Name="CoachID" />
+          </Key>
+          <Property Name="CoachID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ManID" Type="Int32" />
+          <Property Name="Info" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Mans" Relationship="FCModel.FK_Coachs_Mans" FromRole="Coachs" ToRole="Mans" />
+          <NavigationProperty Name="CoachSquad" Relationship="FCModel.FK_CoachSquad_Coachs" FromRole="Coachs" ToRole="CoachSquad" />
+          <NavigationProperty Name="Contracts" Relationship="FCModel.FK_Contracts_Coachs" FromRole="Coachs" ToRole="Contracts" />
+        </EntityType>
+        <Association Name="FK_Coachs_Mans">
+          <End Type="FCModel.Mans" Role="Mans" Multiplicity="0..1" />
+          <End Type="FCModel.Coachs" Role="Coachs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mans">
+              <PropertyRef Name="ManID" />
+            </Principal>
+            <Dependent Role="Coachs">
+              <PropertyRef Name="ManID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CoachSquad_Coachs">
+          <End Type="FCModel.Coachs" Role="Coachs" Multiplicity="0..1" />
+          <End Type="FCModel.CoachSquad" Role="CoachSquad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coachs">
+              <PropertyRef Name="CoachID" />
+            </Principal>
+            <Dependent Role="CoachSquad">
+              <PropertyRef Name="CoachID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contracts_Coachs">
+          <End Type="FCModel.Coachs" Role="Coachs" Multiplicity="0..1" />
+          <End Type="FCModel.Contracts" Role="Contracts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Coachs">
+              <PropertyRef Name="CoachID" />
+            </Principal>
+            <Dependent Role="Contracts">
+              <PropertyRef Name="CoachID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище FCModelContainer" CdmEntityContainer="FCEntities">
+          <EntitySetMapping Name="Agents">
+            <EntityTypeMapping TypeName="FCModel.Agents">
+              <MappingFragment StoreEntitySet="Agents">
+                <ScalarProperty Name="Info" ColumnName="Info" />
+                <ScalarProperty Name="ManID" ColumnName="ManID" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CoachSquad">
+            <EntityTypeMapping TypeName="FCModel.CoachSquad">
+              <MappingFragment StoreEntitySet="CoachSquad">
+                <ScalarProperty Name="MatchID" ColumnName="MatchID" />
+                <ScalarProperty Name="TrainingID" ColumnName="TrainingID" />
+                <ScalarProperty Name="CoachID" ColumnName="CoachID" />
+                <ScalarProperty Name="CoachSquadID" ColumnName="CoachSquadID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contracts">
+            <EntityTypeMapping TypeName="FCModel.Contracts">
+              <MappingFragment StoreEntitySet="Contracts">
+                <ScalarProperty Name="ContractTypeID" ColumnName="ContractTypeID" />
+                <ScalarProperty Name="AgentID" ColumnName="AgentID" />
+                <ScalarProperty Name="CoachID" ColumnName="CoachID" />
+                <ScalarProperty Name="PlayerID" ColumnName="PlayerID" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
+                <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+                <ScalarProperty Name="Money" ColumnName="Money" />
+                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="ContractID" ColumnName="ContractID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractTypeID">
+            <EntityTypeMapping TypeName="FCModel.ContractTypeID">
+              <MappingFragment StoreEntitySet="ContractTypeID">
+                <ScalarProperty Name="ContractTypeDescription" ColumnName="ContractTypeDescription" />
+                <ScalarProperty Name="ContractTypeID1" ColumnName="ContractTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mans">
+            <EntityTypeMapping TypeName="FCModel.Mans">
+              <MappingFragment StoreEntitySet="Mans">
+                <ScalarProperty Name="PersonalPositionID" ColumnName="PersonalPositionID" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Adress" ColumnName="Adress" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="NationalityID" ColumnName="NationalityID" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="ManID" ColumnName="ManID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Matches">
+            <EntityTypeMapping TypeName="FCModel.Matches">
+              <MappingFragment StoreEntitySet="Matches">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="Home" ColumnName="Home" />
+                <ScalarProperty Name="Stadium" ColumnName="Stadium" />
+                <ScalarProperty Name="TournamentID" ColumnName="TournamentID" />
+                <ScalarProperty Name="MatchID" ColumnName="MatchID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nationaites">
+            <EntityTypeMapping TypeName="FCModel.Nationaites">
+              <MappingFragment StoreEntitySet="Nationaites">
+                <ScalarProperty Name="Nationality" ColumnName="Nationality" />
+                <ScalarProperty Name="NationalityID" ColumnName="NationalityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PersonalPosition">
+            <EntityTypeMapping TypeName="FCModel.PersonalPosition">
+              <MappingFragment StoreEntitySet="PersonalPosition">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PersonalPositionID" ColumnName="PersonalPositionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlayerPositions">
+            <EntityTypeMapping TypeName="FCModel.PlayerPositions">
+              <MappingFragment StoreEntitySet="PlayerPositions">
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+                <ScalarProperty Name="PlayerID" ColumnName="PlayerID" />
+                <ScalarProperty Name="PlayerPositionID" ColumnName="PlayerPositionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Players">
+            <EntityTypeMapping TypeName="FCModel.Players">
+              <MappingFragment StoreEntitySet="Players">
+                <ScalarProperty Name="ShirtName" ColumnName="ShirtName" />
+                <ScalarProperty Name="PlayerPositionsID" ColumnName="PlayerPositionsID" />
+                <ScalarProperty Name="PlayerNumber" ColumnName="PlayerNumber" />
+                <ScalarProperty Name="Injury" ColumnName="Injury" />
+                <ScalarProperty Name="NationalTeamInvite" ColumnName="NationalTeamInvite" />
+                <ScalarProperty Name="TransferStatus" ColumnName="TransferStatus" />
+                <ScalarProperty Name="TransferCost" ColumnName="TransferCost" />
+                <ScalarProperty Name="ManID" ColumnName="ManID" />
+                <ScalarProperty Name="PlayerID" ColumnName="PlayerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlayerSquad">
+            <EntityTypeMapping TypeName="FCModel.PlayerSquad">
+              <MappingFragment StoreEntitySet="PlayerSquad">
+                <ScalarProperty Name="MVP" ColumnName="MVP" />
+                <ScalarProperty Name="Distanse" ColumnName="Distanse" />
+                <ScalarProperty Name="StartMinute" ColumnName="StartMinute" />
+                <ScalarProperty Name="TimeOnField" ColumnName="TimeOnField" />
+                <ScalarProperty Name="RedCards" ColumnName="RedCards" />
+                <ScalarProperty Name="YellowCards" ColumnName="YellowCards" />
+                <ScalarProperty Name="Fouls" ColumnName="Fouls" />
+                <ScalarProperty Name="Assists" ColumnName="Assists" />
+                <ScalarProperty Name="Goals" ColumnName="Goals" />
+                <ScalarProperty Name="TrainingID" ColumnName="TrainingID" />
+                <ScalarProperty Name="MatchID" ColumnName="MatchID" />
+                <ScalarProperty Name="PlayerID" ColumnName="PlayerID" />
+                <ScalarProperty Name="PlayerSquadID" ColumnName="PlayerSquadID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Positions">
+            <EntityTypeMapping TypeName="FCModel.Positions">
+              <MappingFragment StoreEntitySet="Positions">
+                <ScalarProperty Name="PositionName" ColumnName="PositionName" />
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tournaments">
+            <EntityTypeMapping TypeName="FCModel.Tournaments">
+              <MappingFragment StoreEntitySet="Tournaments">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Season" ColumnName="Season" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TournamentID" ColumnName="TournamentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Trainings">
+            <EntityTypeMapping TypeName="FCModel.Trainings">
+              <MappingFragment StoreEntitySet="Trainings">
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="TrainInfo" ColumnName="TrainInfo" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="TrainingID" ColumnName="TrainingID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlayerInfo">
+            <EntityTypeMapping TypeName="FCModel.PlayerInfo">
+              <MappingFragment StoreEntitySet="PlayerInfo">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="ContractTypeID" ColumnName="ContractTypeID" />
+                <ScalarProperty Name="ContractTypeDescription" ColumnName="ContractTypeDescription" />
+                <ScalarProperty Name="Money" ColumnName="Money" />
+                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Nationality" ColumnName="Nationality" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="PlayerNumber" ColumnName="PlayerNumber" />
+                <ScalarProperty Name="TransferCost" ColumnName="TransferCost" />
+                <ScalarProperty Name="ManID" ColumnName="ManID" />
+                <ScalarProperty Name="PlayerID" ColumnName="PlayerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Coachs">
+            <EntityTypeMapping TypeName="FCModel.Coachs">
+              <MappingFragment StoreEntitySet="Coachs">
+                <ScalarProperty Name="Info" ColumnName="Info" />
+                <ScalarProperty Name="ManID" ColumnName="ManID" />
+                <ScalarProperty Name="CoachID" ColumnName="CoachID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
