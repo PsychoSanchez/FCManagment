@@ -12,15 +12,20 @@ namespace MVCApp
     using System;
     using System.Collections.Generic;
     
-    public partial class CoachSquad
+    public partial class Stadiums
     {
-        public int CoachSquadID { get; set; }
-        public Nullable<int> CoachID { get; set; }
-        public Nullable<int> TrainingID { get; set; }
-        public Nullable<int> MatchID { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Stadiums()
+        {
+            this.Matches = new HashSet<Matches>();
+        }
     
-        public virtual Coachs Coachs { get; set; }
-        public virtual Matches Matches { get; set; }
-        public virtual Trainings Trainings { get; set; }
+        public int StadiumID { get; set; }
+        public string StadiumDescription { get; set; }
+        public Nullable<long> PeopleAmount { get; set; }
+        public string Name { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Matches> Matches { get; set; }
     }
 }

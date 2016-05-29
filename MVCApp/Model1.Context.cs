@@ -13,10 +13,10 @@ namespace MVCApp
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class FCEntities : DbContext
+    public partial class FClubEntities : DbContext
     {
-        public FCEntities()
-            : base("name=FCEntities")
+        public FClubEntities()
+            : base("name=FClubEntities")
         {
         }
     
@@ -26,20 +26,23 @@ namespace MVCApp
         }
     
         public virtual DbSet<Agents> Agents { get; set; }
+        public virtual DbSet<Coachs> Coachs { get; set; }
         public virtual DbSet<CoachSquad> CoachSquad { get; set; }
         public virtual DbSet<Contracts> Contracts { get; set; }
-        public virtual DbSet<ContractTypeID> ContractTypeID { get; set; }
+        public virtual DbSet<ContractTypes> ContractTypes { get; set; }
         public virtual DbSet<Mans> Mans { get; set; }
         public virtual DbSet<Matches> Matches { get; set; }
-        public virtual DbSet<Nationaites> Nationaites { get; set; }
-        public virtual DbSet<PersonalPosition> PersonalPosition { get; set; }
+        public virtual DbSet<Nationalities> Nationalities { get; set; }
+        public virtual DbSet<PersosnalPosition> PersosnalPosition { get; set; }
         public virtual DbSet<PlayerPositions> PlayerPositions { get; set; }
         public virtual DbSet<Players> Players { get; set; }
         public virtual DbSet<PlayerSquad> PlayerSquad { get; set; }
         public virtual DbSet<Positions> Positions { get; set; }
+        public virtual DbSet<Stadiums> Stadiums { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Tournaments> Tournaments { get; set; }
         public virtual DbSet<Trainings> Trainings { get; set; }
+        public virtual DbSet<CoachInfo> CoachInfo { get; set; }
         public virtual DbSet<PlayerInfo> PlayerInfo { get; set; }
-        public virtual DbSet<Coachs> Coachs { get; set; }
     }
 }

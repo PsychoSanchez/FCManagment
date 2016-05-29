@@ -12,16 +12,16 @@ namespace MVCApp
     using System;
     using System.Collections.Generic;
     
-    public partial class PersonalPosition
+    public partial class Nationalities
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public PersonalPosition()
+        public Nationalities()
         {
             this.Mans = new HashSet<Mans>();
         }
     
-        public int PersonalPositionID { get; set; }
-        public string Description { get; set; }
+        public int NationalityID { get; set; }
+        public string Nationality { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Mans> Mans { get; set; }

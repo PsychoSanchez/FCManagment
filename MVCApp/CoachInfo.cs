@@ -12,15 +12,18 @@ namespace MVCApp
     using System;
     using System.Collections.Generic;
     
-    public partial class CoachSquad
+    public partial class CoachInfo
     {
-        public int CoachSquadID { get; set; }
-        public Nullable<int> CoachID { get; set; }
-        public Nullable<int> TrainingID { get; set; }
-        public Nullable<int> MatchID { get; set; }
-    
-        public virtual Coachs Coachs { get; set; }
-        public virtual Matches Matches { get; set; }
-        public virtual Trainings Trainings { get; set; }
+        public int CoachID { get; set; }
+        public string MiddleName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public int ManID { get; set; }
+        public Nullable<int> Age { get; set; }
+        public Nullable<System.DateTime> Birthday { get; set; }
+        public Nullable<int> NationalityID { get; set; }
+        public string Address { get; set; }
+        public string PhoneNumber { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     }
 }

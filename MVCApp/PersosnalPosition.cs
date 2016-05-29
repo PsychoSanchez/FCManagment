@@ -12,18 +12,18 @@ namespace MVCApp
     using System;
     using System.Collections.Generic;
     
-    public partial class ContractTypeID
+    public partial class PersosnalPosition
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ContractTypeID()
+        public PersosnalPosition()
         {
-            this.Contracts = new HashSet<Contracts>();
+            this.Mans = new HashSet<Mans>();
         }
     
-        public int ContractTypeID1 { get; set; }
-        public string ContractTypeDescription { get; set; }
+        public int PersonalPositionID { get; set; }
+        public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Contracts> Contracts { get; set; }
+        public virtual ICollection<Mans> Mans { get; set; }
     }
 }

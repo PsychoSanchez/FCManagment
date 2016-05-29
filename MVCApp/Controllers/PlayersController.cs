@@ -12,7 +12,7 @@ namespace MVCApp.Controllers
 {
     public class PlayersController : Controller
     {
-        private FCEntities db = new FCEntities();
+        private FClubEntities db = new FClubEntities();
 
         // GET: Players
         public ActionResult Index()
@@ -20,7 +20,7 @@ namespace MVCApp.Controllers
             try
             {
                 ViewBag.Players = db.PlayerInfo;
-                ViewBag.Nationalities = db.Nationaites.ToList();
+                ViewBag.Nationalities = db.Nationalities.ToList();
                 ViewBag.Mans = db.Mans.ToList();
             }
             catch
@@ -49,7 +49,7 @@ namespace MVCApp.Controllers
             try
             {
                 ViewBag.Players = db.PlayerInfo;
-                ViewBag.Nationalities = db.Nationaites.ToList();
+                ViewBag.Nationalities = db.Nationalities.ToList();
             }
             catch
             {

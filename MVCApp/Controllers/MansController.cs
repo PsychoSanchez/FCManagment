@@ -12,16 +12,16 @@ namespace MVCApp.Controllers
 {
     public class MansController : Controller
     {
-        private FCEntities db = new FCEntities();
+        private FClubEntities db = new FClubEntities();
 
         // GET: Mans
         public ActionResult Index()
         {
             try
             {
-                ViewBag.Players = db.PlayerInfo;
-                ViewBag.Nationalities = db.Nationaites.ToList();
-                ViewBag.Mans = db.Mans.ToList();
+                //ViewBag.Players = db.PlayerInfo;
+                //ViewBag.Nationalities = db.Nationaites.ToList();
+                //ViewBag.Mans = db.Mans.ToList();
             }
             catch
             {
@@ -34,7 +34,7 @@ namespace MVCApp.Controllers
         {
             try
             {
-                IEnumerable<MVCApp.Coachs> coach = db.Coachs.ToList();
+                IEnumerable<MVCApp.Coachs> coach = db.Coachs.Where(x => x.Mans.IsDeleted != true).ToList();
                 return PartialView("_Coach", coach);
             }
             catch
@@ -49,7 +49,7 @@ namespace MVCApp.Controllers
             try
             {
                 ViewBag.Players = db.PlayerInfo;
-                ViewBag.Nationalities = db.Nationaites.ToList();
+                ViewBag.Nationalities = db.Nationalities.ToList();
             }
             catch
             {
@@ -70,6 +70,48 @@ namespace MVCApp.Controllers
             }
         }
         public PartialViewResult All()
+        {
+            try
+            {
+                IEnumerable<MVCApp.Mans> Mans = db.Mans.Where(x => x.IsDeleted != true).ToList();
+                return PartialView("All", Mans);
+            }
+            catch
+            {
+                return PartialView();
+            }
+        }
+        [HttpPost]
+        public ActionResult All(string searchTerm)
+        {
+            try
+            {
+                IEnumerable<MVCApp.Mans> Mans;
+                if (string.IsNullOrEmpty(searchTerm))
+                {
+                    Mans = db.Mans.Where(x => x.IsDeleted != true).ToList();
+                }
+                else
+                {
+                    Mans = db.Mans.Where(x => x.FirstName.StartsWith(searchTerm) || x.MiddleName.StartsWith(searchTerm) || x.LastName.StartsWith(searchTerm)).ToList();
+                }
+                return PartialView("All", Mans);
+            }
+            catch
+            {
+                return PartialView();
+            }
+        }
+        public JsonResult FindMan(string term)
+        {
+            List<string> Mans;
+            Mans = db.Mans.Where(x => x.FirstName.StartsWith(term) || x.MiddleName.StartsWith(term) || x.LastName.StartsWith(term))
+                .Select(y => y.MiddleName).ToList();
+
+            return Json(Mans, JsonRequestBehavior.AllowGet);
+
+        }
+        public PartialViewResult ShowFired()
         {
             try
             {
@@ -100,8 +142,8 @@ namespace MVCApp.Controllers
         // GET: Mans/Create
         public ActionResult Create()
         {
-            ViewBag.NationalityID = new SelectList(db.Nationaites, "NationalityID", "Nationality");
-            ViewBag.PersonalPositionID = new SelectList(db.PersonalPosition, "PersonalPositionID", "Description");
+            ViewBag.NationalityID = new SelectList(db.Nationalities, "NationalityID", "Nationality");
+            ViewBag.PersonalPositionID = new SelectList(db.PersosnalPosition, "PersonalPositionID", "Description");
             return View();
         }
 
@@ -119,26 +161,35 @@ namespace MVCApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.NationalityID = new SelectList(db.Nationaites, "NationalityID", "Nationality", mans.NationalityID);
-            ViewBag.PersonalPositionID = new SelectList(db.PersonalPosition, "PersonalPositionID", "Description", mans.PersonalPositionID);
+            ViewBag.NationalityID = new SelectList(db.Nationalities, "NationalityID", "Nationality", mans.NationalityID);
+            ViewBag.PersonalPositionID = new SelectList(db.PersosnalPosition, "PersonalPositionID", "Description", mans.PersonalPositionID);
             return View(mans);
         }
 
         // GET: Mans/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                Mans mans = db.Mans.Find(id);
+                if (mans == null)
+                {
+                    return HttpNotFound();
+                }
+                ViewBag.NationalityID = new SelectList(db.Nationalities, "NationalityID", "Nationality", mans.NationalityID);
+                ViewBag.PersonalPositionID = new SelectList(db.PersosnalPosition, "PersonalPositionID", "Description", mans.PersonalPositionID);
+                return View(mans);
             }
-            Mans mans = db.Mans.Find(id);
-            if (mans == null)
+            catch (Exception ex)
             {
-                return HttpNotFound();
+                return new HttpStatusCodeResult(HttpStatusCode.Conflict, ex.Message);
             }
-            ViewBag.NationalityID = new SelectList(db.Nationaites, "NationalityID", "Nationality", mans.NationalityID);
-            ViewBag.PersonalPositionID = new SelectList(db.PersonalPosition, "PersonalPositionID", "Description", mans.PersonalPositionID);
-            return View(mans);
         }
 
         // POST: Mans/Edit/5
@@ -154,12 +205,13 @@ namespace MVCApp.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.NationalityID = new SelectList(db.Nationaites, "NationalityID", "Nationality", mans.NationalityID);
-            ViewBag.PersonalPositionID = new SelectList(db.PersonalPosition, "PersonalPositionID", "Description", mans.PersonalPositionID);
+            ViewBag.NationalityID = new SelectList(db.Nationalities, "NationalityID", "Nationality", mans.NationalityID);
+            ViewBag.PersonalPositionID = new SelectList(db.PersosnalPosition, "PersonalPositionID", "Description", mans.PersonalPositionID);
             return View(mans);
         }
 
         // GET: Mans/Delete/5
+        [HttpPost]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -167,11 +219,13 @@ namespace MVCApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Mans mans = db.Mans.Find(id);
+            mans.IsDeleted = true;
+            db.SaveChanges();
             if (mans == null)
             {
                 return HttpNotFound();
             }
-            return View(mans);
+            return View("Index");
         }
 
         // POST: Mans/Delete/5

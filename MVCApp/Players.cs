@@ -23,13 +23,12 @@ namespace MVCApp
         }
     
         public int PlayerID { get; set; }
-        public int ManID { get; set; }
+        public Nullable<int> ManID { get; set; }
         public Nullable<decimal> TransferCost { get; set; }
-        public Nullable<bool> TransferStatus { get; set; }
+        public Nullable<bool> TranserStatus { get; set; }
         public Nullable<bool> NationalTeamInvite { get; set; }
         public Nullable<bool> Injury { get; set; }
-        public Nullable<short> PlayerNumber { get; set; }
-        public Nullable<int> PlayerPositionsID { get; set; }
+        public Nullable<int> PlayerNumber { get; set; }
         public string ShirtName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

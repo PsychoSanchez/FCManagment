@@ -12,15 +12,12 @@ namespace MVCApp
     using System;
     using System.Collections.Generic;
     
-    public partial class CoachSquad
+    public partial class sysdiagrams
     {
-        public int CoachSquadID { get; set; }
-        public Nullable<int> CoachID { get; set; }
-        public Nullable<int> TrainingID { get; set; }
-        public Nullable<int> MatchID { get; set; }
-    
-        public virtual Coachs Coachs { get; set; }
-        public virtual Matches Matches { get; set; }
-        public virtual Trainings Trainings { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }
