@@ -4,120 +4,149 @@
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@Scripts.Render("~/Scripts/jquery-2.2.3.min.js")
+<div id="MainBody">
 
-<h2>Details</h2>
+    <h2 style="text-align:right">@Html.DisplayFor(model => model.MiddleName) @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h2>
+    <div>
+        <h4 style="text-align:right">@Html.DisplayFor(model => model.PersonalPosition.Description)</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-12 column">
+                <div class="col-md-8 column">
+                    <div class="view">
+                        <div class="panel-group" id="panel-843417">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a class="panel-title" data-toggle="collapse" data-parent="#panel-843417" href="#panel-element-630167" aria-expanded="true">
+                                        Последние матчи
+                                    </a>
+                                </div>
+                                <div id="panel-element-630167" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        Anim pariatur cliche...
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-843417" href="#panel-element-234183" aria-expanded="false">
+                                        Общая статистика
+                                    </a>
+                                </div>
+                                <div id="panel-element-234183" class="panel-collapse collapse in" aria-expanded="true">
+                                    <div class="panel-body">
+                                        Anim pariatur cliche...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-<div>
-    <h4>Mans</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.MiddleName)
-        </dt>
+                <div class="view col-md-4" style="background-color:InactiveBorder; border-radius: 5px;">
+                    <div class="view">
+                        <img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/" class="img-thumbnail center-block" />
+                        <div>
+                            <dl class="dl-horizontal center-block" style="margin-top:auto">
+                                <dt>
+                                    Фамилия
+                                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.MiddleName)
-        </dd>
+                                <dd>
+                                    @Html.DisplayFor(model => model.MiddleName)
+                                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
+                                <dt>
+                                    Имя
+                                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
+                                <dd>
+                                    @Html.DisplayFor(model => model.FirstName)
+                                </dd>
+                                <dt>
+                                    Возраст
+                                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Age)
+                                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
+                                <dt>
+                                    Дата рождения
+                                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Age)
-        </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Birthday)
+                                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Age)
-        </dd>
+                                <dt>
+                                    Рост
+                                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Birthday)
-        </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Height)
+                                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Birthday)
-        </dd>
+                                <dt>
+                                    Вес
+                                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Height)
-        </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Weight)
+                                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Height)
-        </dd>
+                                <dt>
+                                    Адрес
+                                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Weight)
-        </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Adress)
+                                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Weight)
-        </dd>
+                                <dt>
+                                    Номер телефона
+                                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Adress)
-        </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.PhoneNumber)
+                                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Adress)
-        </dd>
+                                <dt>
+                                    Гражданство
+                                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PhoneNumber)
-        </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Nationaites.Nationality)
+                                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.PhoneNumber)
-        </dd>
+                                <dt>
+                                    Должность в клубе:
+                                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Photo)
-        </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.PersonalPosition.Description)
+                                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Photo)
-        </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IsDeleted)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.IsDeleted)
-        </dd>
+            </div>
+        </div>
+        <a href="/Mans/Index" class="btn btn-primary">Обратно к персоналу </a>
+        <p class="pull-right">
+            <a href="/Mans/Edit/@Model.ManID" id="Edit" class="btn btn-primary" name="ManID">Контрактная информация</a>
+            <a href="/Mans/Edit/@Model.ManID" id="Edit" class="btn btn-primary" name="ManID">Редактировать</a>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Nationaites.Nationality)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Nationaites.Nationality)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PersonalPosition.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PersonalPosition.Description)
-        </dd>
-
-    </dl>
+        </p>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ManID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<script>
+    $(document).ready(function () {
+        $("#MainBody").fadeOut(0).fadeIn(1500);
+    })
+</script>

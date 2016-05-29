@@ -360,8 +360,8 @@
     <Content Include="Views\Players\Delete.cshtml" />
     <Content Include="Views\Players\Details.cshtml" />
     <Content Include="Views\Players\Edit.cshtml" />
-    <Content Include="Views\Mans\AgentsTab.cshtml" />
-    <Content Include="Views\Mans\All.cshtml" />
+    <Content Include="Views\Shared\AgentsTab.cshtml" />
+    <Content Include="Views\Shared\All.cshtml" />
     <Content Include="Views\Mans\Create.cshtml" />
     <Content Include="Views\Mans\Delete.cshtml" />
     <Content Include="Views\Mans\Details.cshtml" />
@@ -369,7 +369,7 @@
     <Content Include="Views\Mans\Index.cshtml" />
     <None Include="Views\Players\Index.cshtml" />
     <Content Include="Views\Shared\_Coach.cshtml" />
-    <Content Include="Views\Mans\PlayersTab.cshtml" />
+    <Content Include="Views\Shared\PlayersTab.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
