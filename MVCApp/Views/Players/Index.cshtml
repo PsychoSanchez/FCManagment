@@ -1,7 +1,7 @@
 ﻿@model dynamic
 
 @{
-    ViewBag.Title = "Управление клубом";
+    ViewBag.Title = "Управление игроками";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var ajaxtabpage = new AjaxOptions()
     {
@@ -15,214 +15,184 @@
         LoadingElementDuration = 0
     };
 }
-@Scripts.Render("~/Scripts/jquery-2.2.3.min.js")
+@Scripts.Render("~/Scripts/jquery-2.2.3.js")
 @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+@*@Scripts.Render("~/Scripts/jquery-ui-1.11.4.min.js")*@
 
 
 <div class="container-fluid">
-    <h1>Управление персоналом</h1>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="tabbable" id="tabs-864236">
-                <ul class="nav nav-tabs navbar-right" id="nope">
-                    <li class="active">
-                        @Ajax.ActionLink("Игроки", "PlayersTab", ajaxtabpage)
-                    </li>
-                    <li>
-                        @Ajax.ActionLink("Тренеры", "CoachTab", ajaxtabpage)
-                    </li>
-                    <li>
-                        @Ajax.ActionLink("Агенты", "AgentsTab", ajaxtabpage)
-                    </li>
-                    <li>
-                        @Ajax.ActionLink("Весь персонал", "All", ajaxtabpage)
-                    </li>
-                </ul>
-
-                <div class="tab-content">
-                    <div class="tab-pane active">
-                        <div id="DataTable">
-                            @Html.Action("PlayersTab");
-                            @*<table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            Номер игрока
-                                        </th>
-                                        <th>
-                                            ФИО
-                                        </th>
-                                        <th>
-                                            Национальность
-                                        </th>
-                                        <th>
-                                            Возраст
-                                        </th>
-                                        <th>
-                                            Рост (см.)
-                                        </th>
-                                        <th>
-                                            Вес (кг.)
-                                        </th>
-                                        <th>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var pl in ViewBag.Players)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @pl.PlayerNumber
-                                            </td>
-                                            <td>
-                                                @pl.MiddleName @pl.FirstName @pl.LastName
-                                            </td>
-                                            <td>
-                                                @pl.Nationality
-                                            </td>
-
-                                            @if (@pl.Age != null)
-                                            {
-                                                <td>
-                                                    @pl.Age
-                                                </td>
-                                            }
-                                            else
-                                            {
-                                                <td>
-                                                    Неизвестно
-                                                </td>
-                                            }
-                                            @if (@pl.Height != null)
-                                            {
-                                                <td>
-                                                    @pl.Height
-                                                </td>
-                                            }
-                                            else
-                                            {
-                                                <td>
-                                                    Неизвестно
-                                                </td>
-                                            }
-                                            @if (@pl.Weight != null)
-                                            {
-                                                <td>
-                                                    @pl.Weight
-                                                </td>
-                                            }
-                                            else
-                                            {
-                                                <td>
-                                                    Неизвестно
-                                                </td>
-                                            }
-                                            <td>
-                                                <button id="Edit" class="btn btn-default btn-xs" value="@pl.ManID" name="ManID">Редактировать</button>
-                                            </td>
-                                            <td>
-                                                <form action="/Players/RemovePlayerActionResult" method="post">
-                                                    <button id="Delete" class="btn btn-danger btn-xs" value="@pl.ManID" name="ManID">Удалить</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-
-
-                            <div class="modal fade" id="ModalWindow" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                                х
-                                            </button>
-                                            <h4 class="modal-title" id="myModalLabel">
-                                                Добавление игрока
-                                            </h4>
-                                        </div>
-                                        <form role="form" class="form-group" action="/Players/AddPlayerActionResult" method="post">
-                                            <div class="modal-body" id="AddPlayerModal">
-                                                <div class="form-group has-feedback">
-                                                    @*<div class="form-group">
-                                                            <div class="col-md-4">.col-md-4</div>
-                                                            <div class="col-md-4 col-md-offset-4">.col-md-4 .col-md-offset-4</div>
-                                                        </div>*@
-                                                    @*<label class="control-label" for="PlayerName">Полное имя</label>
-                                                    <input name="PlayerName" class="form-control input-required" placeholder="Фамилия Имя Отчество" aria-describedby="inputError2Status">
-                                                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                                    <span id="inputError2Status" class="sr-only">(error)</span>
-                                                </div>
-                                                <div class="form-group has-feedback">
-                                                    <label class="control-label">Рост</label>
-                                                    <input type="number" min="50" max="250" name="Height" class="form-control input-required" placeholder="Рост игрока" />
-                                                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                                    <span id="inputError2Status" class="sr-only">(error)</span>
-                                                </div>
-                                                <div class="form-group has-feedback">
-                                                    <label class="control-label">Вес</label>
-                                                    <input type="number" min="30" max="150" name="Weight" class="form-control input-required" placeholder="Вес игрока" />
-                                                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                                    <span id="inputError2Status" class="sr-only">(error)</span>
-                                                </div>
-                                                <div class="form-group has-feedback">
-                                                    <label class="control-label">Номер</label>
-                                                    <input type="number" min="1" max="99" name="PlayerNumber" class="form-control input-required" placeholder="Номер" />
-                                                    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                                                    <span id="inputError2Status" class="sr-only">(error)</span>
-                                                </div>
-                                                <div>
-                                                    <label class="control-label">День рождения</label>
-                                                    <input type="date" name="Birthday" class="form-control" value="1999-01-01" min='1917-01-01' />
-
-                                                </div>
-                                                <div>
-                                                    <label class="control-label">Национальность</label>
-                                                    <select name="Nationality" class="form-control">
-                                                        @foreach (var nat in ViewBag.Nationalities)
-                                                        {
-                                                            <option value=@nat.NationalityID>@nat.Nationality</option>
-                                                        }
-                                                    </select>
-                                                </div>
-                                                <div>
-                                                    <label class="control-label">Дата заключения контракта</label>
-                                                    <input type="date" id="ContractStart" name="ContractStart" class="form-control" min='1899-01-01' />
-
-                                                </div>
-                                                <div>
-                                                    <label class="control-label">Дата окончания контракта</label>
-                                                    <input type="date" id="ContractEnd" name="ContractEnd" class="form-control" min='1899-01-01' />
-                                                </div>
-                                                <div>
-                                                    <label class="control-label">Зарплата</label>
-                                                    <input type="number" value="5000" min="1" name="ContractMoney" class="form-control" placeholder="Зарплата в неделю" />
-                                                </div>
-                                                <div>
-                                                    <label class="control-label">Трансферная стоимость</label>
-                                                    <input type="number" value="50000" min="1" name="TransferPrice" class="form-control" placeholder="Стоимость на трансферном рынке" />
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">
-                                                    Отмена
-                                                </button>
-                                                <button type="submit" class="btn btn-primary" id="AddPlayerButton">
-                                                    Добавить
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
+    <h1>Игроки клуба</h1>
+    <hr>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse1">Панель управления</a>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapse1">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        @using (@Html.BeginForm("Index", "Players", FormMethod.Post, new { @class = "form-inline" }))
+                        {
+                            <div class="form-group col-md-8">
+                                @Html.TextBox("SearchTerm", null, new { @class = "form-control input-sm", id = "txtSearch", placeholder = "Найти игрока" })
+                                <input type="submit" class="btn btn-default btn-sm" value="Найти" />
+                                <div class="btn-group">
+                                    @Ajax.ActionLink("Сбросить фильтр", "All", null, ajaxtabpage, new { @class = "btn btn-primary btn-sm" })
+                                @*<button type="button" class="btn btn-primary btn-sm">Сбросить фильтр</button>*@
+                                @*<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu"
+                                        <li>@Ajax.ActionLink("Показать всех", "AllWithDeleted", ajaxtabpage)</li>
+                                        <li>@Ajax.ActionLink("Показать только работающих", "All", ajaxtabpage)</li>
+                                        <li>@Ajax.ActionLink("Показать только уволенных", "ShowFired", ajaxtabpage)</li>
+                                    </ul>*@
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ModalWindow">Добавить игрока</button>
-                                </div>
-                            </div>*@
+                        }
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#ModalWindow">Добавить игрока</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @if (ViewBag.Failure)
+            {
+                <div class="row">
+                    <div class="alert alert-danger fade in">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Упс!</strong>@ViewBag.FMessage
+                    </div>
+                </div>
+            }
+            <div class="tabbable" id="tabs-864236">
+                <ul class="nav nav-tabs navbar-right" style="margin-right:10px" id="nope">
+                    <li>
+                        @Html.ActionLink("Весь персонал", "Index", "Mans")
+                    </li>
+                    <li class="active">
+                        @Html.ActionLink("Игроки", "Index", "Players")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Тренеры", "Index", "Coachss")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Агенты", "Index", "Agent")
+                    </li>
+                </ul>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active">
+
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @Ajax.ActionLink("Номер игрока", "SortByNumber", ajaxtabpage)
+                                            </th>
+                                            <th>
+                                                @Ajax.ActionLink("ФИО", "SortByFIO", ajaxtabpage)
+                                            </th>
+                                            <th>
+                                                @Ajax.ActionLink("Гражданство", "SortByNationality", ajaxtabpage)
+
+                                            </th>
+                                            <th>
+                                                @Ajax.ActionLink("Возраст", "SortByAge", ajaxtabpage)
+
+                                            </th>
+                                            <th>
+                                                @Ajax.ActionLink("Рост (см.)", "SortByHeight", ajaxtabpage)
+
+                                            </th>
+                                            <th>
+                                                @Ajax.ActionLink("Вес (кг.)", "SortByWeight", ajaxtabpage)
+
+                                            </th>
+                                            <th>
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="DataTable">
+                                        @foreach (var pl in ViewBag.Players)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @pl.PlayerNumber
+                                                </td>
+                                                <td>
+                                                    @pl.MiddleName @pl.FirstName @pl.LastName
+                                                </td>
+                                                <td>
+                                                    @pl.Nationality
+                                                </td>
+
+                                                @if (@pl.Age != null)
+                {
+                                                    <td>
+                                                        @pl.Age
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        Неизвестно
+                                                    </td>
+                                                }
+                                                @if (@pl.Height != null)
+                {
+                                                    <td>
+                                                        @pl.Height
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        Неизвестно
+                                                    </td>
+                                                }
+                                                @if (@pl.Weight != null)
+                {
+                                                    <td>
+                                                        @pl.Weight
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        Неизвестно
+                                                    </td>
+                                                }
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <a href="/Mans/Details/@pl.ManID" id="Details" class="btn btn-default btn-xs" name="ManID">Профиль</a>
+                                                        <div class="btn-group">
+                                                            <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                                                                Действия <span class="caret"></span>
+                                                            </button>
+                                                            <ul class="dropdown-menu" role="menu">
+                                                                <li><a href="#" id="Delete" value="@pl.ManID" name="ManID">Редактировать</a></li>
+                                                                <li>
+                                                                    <a href="#RemovePlayer" id="Delete" class="label-danger">Удалить</a>
+                                                                    <form id="RemovePlayer" action="/Players/Delete" method="post" value="@pl.PlayerID" name="ManID"></form>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -238,6 +208,94 @@
 
     </div>
 
+
+    <div class="modal fade" id="ModalWindow" role="dialog" aria-labelledby="myModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        х
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Добавление игрока
+                    </h4>
+                </div>
+                <form role="form" class="form-group" action="/Players/AddPlayerActionResult" method="post">
+                    <div class="modal-body" id="AddPlayerModal">
+                        <div class="form-group has-feedback">
+                            <label class="control-label" for="PlayerName">Полное имя</label>
+                            <input name="PlayerName" class="form-control input-required" placeholder="Фамилия Имя Отчество" aria-describedby="inputError2Status">
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <span id="inputError2Status" class="sr-only">(error)</span>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label class="control-label" for="ShirtName">Надпись на футолке</label>
+                            <input name="ShirtName" class="form-control input-required" placeholder="Имя на футболке" aria-describedby="inputError2Status">
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <span id="inputError2Status" class="sr-only">(error)</span>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label class="control-label">Рост</label>
+                            <input type="number" min="50" max="250" name="Height" class="form-control input-required" placeholder="Рост игрока" />
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <span id="inputError2Status" class="sr-only">(error)</span>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label class="control-label">Вес</label>
+                            <input type="number" min="30" max="150" name="Weight" class="form-control input-required" placeholder="Вес игрока" />
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <span id="inputError2Status" class="sr-only">(error)</span>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label class="control-label">Номер</label>
+                            <input type="number" min="1" max="99" name="PlayerNumber" class="form-control input-required" placeholder="Номер" />
+                            <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                            <span id="inputError2Status" class="sr-only">(error)</span>
+                        </div>
+                        <div>
+                            <label class="control-label">День рождения</label>
+                            <input type="date" name="Birthday" class="form-control" value="1999-01-01" min='1917-01-01' />
+
+                        </div>
+                        <div>
+                            <label class="control-label">Национальность</label>
+                            <select name="Nationality" class="form-control">
+                                @foreach (var nat in ViewBag.Nationalities)
+                                {
+                                    <option value=@nat.NationalityID>@nat.Nationality</option>
+                                }
+                            </select>
+                        </div>
+                        <div>
+                            <label class="control-label">Дата заключения контракта</label>
+                            <input type="date" id="ContractStart" name="ContractStart" class="form-control" min='1899-01-01' />
+
+                        </div>
+                        <div>
+                            <label class="control-label">Дата окончания контракта</label>
+                            <input type="date" id="ContractEnd" name="ContractEnd" class="form-control" min='1899-01-01' />
+                        </div>
+                        <div>
+                            <label class="control-label">Зарплата</label>
+                            <input type="number" value="1000000" min="1" name="ContractMoney" class="form-control" placeholder="Зарплата в неделю" />
+                        </div>
+                        <div>
+                            <label class="control-label">Трансферная стоимость</label>
+                            <input type="number" value="1000000" min="1" name="TransferPrice" class="form-control" placeholder="Стоимость на трансферном рынке" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Отмена
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="AddPlayerButton">
+                            Добавить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     function ClearTable() {
@@ -253,22 +311,12 @@
 </script>
 <script type="text/javascript" language="javascript">
     $(document).ready(function () {
-        $("#nope").find("li").click(function () {
-            $(this).parent().find("li").removeClass("active")
-            $(this).addClass("active")
-        })
-        $(".input-required").on("focusout",
-        function () {
-            if (this.value === "") {
-
-                $(this).parent().addClass("has-error")
-                $(this).next().addClass("glyphicon-remove")
-            }
-            else {
-                $(this).parent().removeClass("has-error")
-                $(this).next().removeClass("glyphicon-remove")
-            }
-        })
+        $("#nope")
+            .find("li")
+            .click(function () {
+                $(this).parent().find("li").removeClass("active");
+                $(this).addClass("active");
+            });
     })
 </script>
 <script>
@@ -286,8 +334,61 @@
                     if (this.value < parseInt($(this).attr("min"))) {
                         this.value = parseInt($(this).attr("min"));
                     }
+        });
+        $("#DataTable").fadeOut(0).fadeIn(1400);
+        var now = new Date();
+        var month = (now.getMonth() + 1);
+        var day = now.getDate();
+        if (month < 10)
+            month = "0" + month;
+        if (day < 10)
+            day = "0" + day;
+        var today = now.getFullYear() + '-' + month + '-' + day;
+        $('#ContractStart').val(today);
+        $('#ContractEnd').val(today);
+    });
+</script>
+
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+        $(".input-required").on("focusout",
+        function () {
+            if (this.value === "") {
+
+                $(this).parent().addClass("has-error")
+                $(this).next().addClass("glyphicon-remove")
+            }
+            else {
+                $(this).parent().removeClass("has-error")
+                $(this).next().removeClass("glyphicon-remove")
+            }
         })
-        $("#DataTable").fadeOut(0).fadeIn(700);
+        $("input[name='Height'], input[name='Weight'],  input[name='PlayerNumber']").on("focusout", function () {
+            if (this.value === "") {
+
+            }
+            else
+                if (this.value > parseInt($(this).attr("max"))) {
+                    this.value = parseInt($(this).attr("max"));
+                }
+                else
+                    if (this.value < parseInt($(this).attr("min"))) {
+                        this.value = parseInt($(this).attr("min"));
+                    }
+        })
+        $("input[name='PlayerNumber']").on("focusout", function () {
+            if (this.value === "") {
+
+            }
+            else
+                if (this.value > parseInt($(this).attr("max"))) {
+                    this.value = parseInt($(this).attr("max"));
+                }
+                else
+                    if (this.value < parseInt($(this).attr("min"))) {
+                        this.value = parseInt($(this).attr("min"));
+                    }
+        })
         var now = new Date();
         var month = (now.getMonth() + 1);
         var day = now.getDate();
@@ -299,29 +400,14 @@
         $('#ContractStart').val(today);
         $('#ContractEnd').val(today);
 
-        var form = document.getElementById('AddPlayerButton');
-        try {
-            if (form.addEventListener("submit", someFunction, false))
-                form.onsubmit();
-        } catch (e) {
-            form.attachEvent("onsubmit", someFunction); //Internet Explorer 8-
-        }
-        //var event = $._data($("#AddPlayerButton")[0], "events");
-        //var kek = $("#AddPlayerButton")[0].onmousedown;
-        function someFunction() {
-            if ($("#AddPlayerModal div.has-error").length > 0) {
-                return false;
-            }
-            var input = true;
-            $("#AddPlayerModal input").each(function (index, el) {
-                if (el.value === "") {
-                    input = false;
-                    el.parent().addClass("has-error");
-                    el.next().addClass("glyphicon-remove");
-                }
-            })
-            return input;
-            //kek();
-        }
-    });
+        //$('#ModalWindow').on('show.bs.modal', function (event) {
+        //    var button = $(event.relatedTarget) // Button that triggered the modal
+        //    var recipient = button.data('whatever') // Extract info from data-* attributes
+        //    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        //    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        //    var modal = $(this)
+        //    modal.find('.modal-title').text('New message to ' + recipient)
+        //    modal.find('.modal-body input').val(recipient)
+        //})
+    })
 </script>

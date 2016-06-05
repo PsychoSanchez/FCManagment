@@ -25,6 +25,7 @@ namespace MVCApp
         public Nullable<int> AgentID { get; set; }
         public Nullable<int> ManID { get; set; }
         public Nullable<int> ContractTypeID { get; set; }
+        public Nullable<decimal> ClearMoney { get; set; }
     
         public virtual Agents Agents { get; set; }
         public virtual Coachs Coachs { get; set; }

@@ -13,7 +13,111 @@ namespace MVCApp.Controllers
     public class PlayersController : Controller
     {
         private FClubEntities db = new FClubEntities();
+        static bool failure = false;
+        static string FMessage = string.Empty;
+        [HttpPost]
+        public ActionResult AddPlayerActionResult(string PlayerName, string ShirtName, string Nationality, short? PlayerNumber, DateTime Birthday, DateTime ContractStart, DateTime ContractEnd, double ContractMoney, double TransferPrice, short? Height, short? Weight)
+        {
+            Mans man = new Mans();
+            Players player = new Players();
+            Contracts contract = new Contracts();
+            try
+            {
+                man.NationalityID = int.Parse(Nationality);
+                man.Birthday = Birthday;
+                man.Age = (short?)(DateTime.Now.Year - Birthday.Year);
+                man.LastName = string.Empty;
+                man.Height = Height;
+                man.Weight = Weight;
+                var playername = PlayerName.Split(' ');
+                if (playername.Length == 0)
+                {
+                    throw new Exception("»м¤ не определено");
+                }
+                for (int i = 0; i < playername.Length; i++)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            man.MiddleName = playername[i];
+                            break;
+                        case 1:
+                            man.FirstName = playername[i];
+                            break;
+                        default:
+                            man.LastName += playername[i] + " ";
+                            break;
+                    }
+                }
+                man.PersonalPositionID = 1;
+                db.Mans.Add(man);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                failure = true;
+                FMessage = Logger.WriteLog("Ошибка при добавлении игрока", ex.Message);
+                try
+                {
+                    db.Mans.Remove(man);
+                }
+                catch { }
+                return RedirectToAction("Index");
+            }
+            try
+            {
+                player.ManID = man.ManID;
+                if (db.Players.Where(x => x.PlayerNumber == PlayerNumber).Count() > 0)
+                    throw new Exception("Игрок с таким номером уже существует");
+                player.PlayerNumber = PlayerNumber;
+                player.TransferCost = (decimal?)TransferPrice;
+                player.ShirtName = ShirtName;
+                if (db.Players.Where(x => x.ShirtName == ShirtName).Count() > 0)
+                    throw new Exception("Игрок с таким именем уже существует");
+                db.Players.Add(player);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                failure = true;
+                FMessage = Logger.WriteLog("Ошибка при добавлении игрока", ex.Message);
+                db.Mans.Remove(man);
+                try
+                {
+                    db.Players.Remove(player);
+                }
+                catch { }
+                return RedirectToAction("Index");
+            }
+            try
+            {
+                contract.PlayerID = player.PlayerID;
+                contract.ContractTypeID = 1;
+                contract.StartDate = ContractStart;
+                contract.ExpireDate = ContractEnd;
+                contract.Money = (decimal?)ContractMoney;
+                contract.Tax = (decimal?)ContractMoney / 100 * 13;
+                contract.PlayerID = player.PlayerID;
+                db.Contracts.Add(contract);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                failure = true;
+                FMessage = Logger.WriteLog("Ошибка при добавлении игрока", ex.Message);
+                try
+                {
 
+                    db.Mans.Remove(man);
+                    db.Players.Remove(player);
+                    db.Contracts.Remove(contract);
+                }
+                catch { }
+                return RedirectToAction("Index");
+            }
+            Logger.WriteLog("Игрок успешно добавлен в базу данных: " + man.MiddleName + " ID игрока: " + player.PlayerID + " ID профиля: " + man.ManID + " ID контракта: " + contract.ContractID);
+            return RedirectToAction("Index");
+        }
         // GET: Players
         public ActionResult Index()
         {
@@ -22,64 +126,179 @@ namespace MVCApp.Controllers
                 ViewBag.Players = db.PlayerInfo;
                 ViewBag.Nationalities = db.Nationalities.ToList();
                 ViewBag.Mans = db.Mans.ToList();
+                ViewBag.Failure = failure;
+                ViewBag.FMessage = FMessage;
+                ViewBag.CurrentSort = true;
+                failure = false;
+                ViewBag.Postions = new SelectList(db.Positions, "PositionID", "PositionName");
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.WriteLog("Ошибка: ", ex.Message);
                 return new HttpStatusCodeResult(HttpStatusCode.Conflict, "Ошибка чтения из базы данных");
             }
             return View();
         }
-
-        public PartialViewResult CoachTab()
+        [HttpPost]
+        public ActionResult Index(string SearchTerm)
         {
             try
             {
-                IEnumerable<MVCApp.Coachs> coach = db.Coachs.ToList();
-                return PartialView("_Coach", coach);
+                ViewBag.Players = db.PlayerInfo.Where(x => x.FirstName.StartsWith(SearchTerm) || x.MiddleName.StartsWith(SearchTerm) || x.LastName.StartsWith(SearchTerm) || x.PlayerNumber.ToString().StartsWith(SearchTerm) || x.ShirtName.StartsWith(SearchTerm)).ToList();
+                ViewBag.Nationalities = db.Nationalities.ToList();
+                ViewBag.Mans = db.Mans.ToList();
+                ViewBag.Failure = failure;
+                ViewBag.FMessage = FMessage;
+                ViewBag.CurrentSort = true;
+                failure = false;
+                ViewBag.Postions = new SelectList(db.Positions, "PositionID", "PositionName");
             }
-            catch
+            catch (Exception ex)
             {
-                return PartialView();
+                Logger.WriteLog("Ошибка: ", ex.Message);
+                return new HttpStatusCodeResult(HttpStatusCode.Conflict, "Ошибка чтения из базы данных");
             }
-
-
+            return View();
         }
-        public PartialViewResult PlayersTab()
+        static bool sortValue = false;
+        public PartialViewResult All()
         {
             try
             {
                 ViewBag.Players = db.PlayerInfo;
                 ViewBag.Nationalities = db.Nationalities.ToList();
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.WriteLog("Ошибка: ", ex.Message);
             }
             return PartialView("PlayersTab", ViewBag);
         }
-
-        public PartialViewResult AgentsTab()
+        public PartialViewResult SortByNumber()
         {
             try
             {
-                IEnumerable<MVCApp.Agents> agents = db.Agents.ToList();
-                return PartialView("AgentsTab", agents);
+                if (sortValue)
+                {
+                    ViewBag.Players = db.PlayerInfo.OrderBy(x => x.PlayerNumber).ToList();
+                }
+                else
+                {
+                    ViewBag.Players = db.PlayerInfo.OrderByDescending(x => x.PlayerNumber).ToList();
+                }
+                sortValue = !sortValue;
+                ViewBag.Nationalities = db.Nationalities.ToList();
             }
-            catch
+            catch (Exception ex)
             {
-                return PartialView();
+                Logger.WriteLog("Ошибка: ", ex.Message);
             }
+            return PartialView("PlayersTab", ViewBag);
         }
-        public PartialViewResult All()
+        public PartialViewResult SortByFIO()
         {
             try
             {
-                IEnumerable<MVCApp.Mans> Mans = db.Mans.ToList();
-                return PartialView("All", Mans);
+                if (sortValue)
+                {
+                    ViewBag.Players = db.PlayerInfo.OrderBy(x => x.MiddleName).ToList();
+                }
+                else
+                {
+                    ViewBag.Players = db.PlayerInfo.OrderByDescending(x => x.MiddleName).ToList();
+                }
+                sortValue = !sortValue;
+                ViewBag.Nationalities = db.Nationalities.ToList();
             }
-            catch
+            catch (Exception ex)
             {
-                return PartialView();
+                Logger.WriteLog("Ошибка: ", ex.Message);
             }
+            return PartialView("PlayersTab", ViewBag);
+        }
+        public PartialViewResult SortByNationality()
+        {
+            try
+            {
+                if (sortValue)
+                {
+                    ViewBag.Players = db.PlayerInfo.OrderBy(x => x.NationalityID).ToList();
+                }
+                else
+                {
+                    ViewBag.Players = db.PlayerInfo.OrderByDescending(x => x.NationalityID).ToList();
+                }
+                sortValue = !sortValue;
+                ViewBag.Nationalities = db.Nationalities.ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog("Ошибка: ", ex.Message);
+            }
+            return PartialView("PlayersTab", ViewBag);
+        }
+        public PartialViewResult SortByAge()
+        {
+            try
+            {
+                if (sortValue)
+                {
+                    ViewBag.Players = db.PlayerInfo.OrderBy(x => x.Age).ToList();
+                }
+                else
+                {
+                    ViewBag.Players = db.PlayerInfo.OrderByDescending(x => x.Age).ToList();
+                }
+                sortValue = !sortValue;
+                ViewBag.Nationalities = db.Nationalities.ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog("Ошибка: ", ex.Message);
+            }
+            return PartialView("PlayersTab", ViewBag);
+        }
+        public PartialViewResult SortByWeight()
+        {
+            try
+            {
+                if (sortValue)
+                {
+                    ViewBag.Players = db.PlayerInfo.OrderBy(x => x.Weight).ToList();
+                }
+                else
+                {
+                    ViewBag.Players = db.PlayerInfo.OrderByDescending(x => x.Weight).ToList();
+                }
+                sortValue = !sortValue;
+                ViewBag.Nationalities = db.Nationalities.ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog("Ошибка: ", ex.Message);
+            }
+            return PartialView("PlayersTab", ViewBag);
+        }
+        public PartialViewResult SortByHeight()
+        {
+            try
+            {
+                if (sortValue)
+                {
+                    ViewBag.Players = db.PlayerInfo.OrderBy(x => x.Height).ToList();
+                }
+                else
+                {
+                    ViewBag.Players = db.PlayerInfo.OrderByDescending(x => x.Height).ToList();
+                }
+                sortValue = !sortValue;
+                ViewBag.Nationalities = db.Nationalities.ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog("Ошибка: ", ex.Message);
+            }
+            return PartialView("PlayersTab", ViewBag);
         }
 
         // GET: Players/Details/5
@@ -156,6 +375,8 @@ namespace MVCApp.Controllers
         }
 
         // GET: Players/Delete/5
+
+        [HttpPost, ActionName("Delete")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -163,23 +384,27 @@ namespace MVCApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Players players = db.Players.Find(id);
-            if (players == null)
+            try
             {
-                return HttpNotFound();
+                players.Mans.IsDeleted = true;
+                db.SaveChanges();
             }
+            catch (Exception ex)
+            {
+                Logger.WriteLog("Ошибка при удалении игрока", ex.Message);
+            }
+            Logger.WriteLog("Игрок " + players.Mans.MiddleName + " удален");
             return View(players);
         }
-
-        // POST: Players/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Players players = db.Players.Find(id);
-            db.Players.Remove(players);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        //// POST: Players/Delete/5
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Players players = db.Players.Find(id);
+        //    db.Players.Remove(players);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
 
         //protected override void Dispose(bool disposing)
         //{

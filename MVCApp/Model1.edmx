@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище FClubModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище FClubModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Agents">
           <Key>
             <PropertyRef Name="AgentID" />
@@ -45,6 +45,7 @@
           <Property Name="AgentID" Type="int" />
           <Property Name="ManID" Type="int" />
           <Property Name="ContractTypeID" Type="int" />
+          <Property Name="ClearMoney" Type="money" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="ContractTypes">
           <Key>
@@ -141,7 +142,7 @@
             <PropertyRef Name="PositionID" />
           </Key>
           <Property Name="PositionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PositionName" Type="nchar" MaxLength="10" />
+          <Property Name="PositionName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Stadiums">
           <Key>
@@ -201,21 +202,6 @@
           <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
-предупреждение 6013: Первичный ключ в таблице или представлении "FClub.dbo.MatchStatistics" не определен, его не удалось вывести. Эта таблица или представление исключены. Чтобы использовать сущность, необходимо проверить схему, добавить правильные ключи и раскомментировать ее.
-        <EntityType Name="MatchStatistics">
-          <Property Name="PlayerID" Type="int" />
-          <Property Name="MatchID" Type="int" />
-          <Property Name="Goals" Type="int" />
-          <Property Name="Assists" Type="int" />
-          <Property Name="Fouls" Type="int" />
-          <Property Name="YellowCards" Type="int" />
-          <Property Name="RedCards" Type="bit" />
-          <Property Name="TimeOnField" Type="int" />
-          <Property Name="StartMinute" Type="int" />
-          <Property Name="Distance" Type="decimal" Precision="10" Scale="0" />
-          <Property Name="MVP" Type="bit" />
-        </EntityType>-->
-        <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "FClub.dbo.PlayerInfo" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="PlayerInfo">
           <Key>
@@ -246,23 +232,10 @@
           <Property Name="ExpireDate" Type="date" />
           <Property Name="Money" Type="money" />
           <Property Name="ContractID" Type="int" Nullable="false" />
+          <Property Name="Nationality" Type="nvarchar" MaxLength="70" />
+          <Property Name="ClearMoney" Type="money" />
+          <Property Name="Description" Type="nvarchar" MaxLength="150" />
         </EntityType>
-        <!--Ошибки, обнаруженные при создании:
-предупреждение 6013: Первичный ключ в таблице или представлении "FClub.dbo.TrainingInfo" не определен, его не удалось вывести. Эта таблица или представление исключены. Чтобы использовать сущность, необходимо проверить схему, добавить правильные ключи и раскомментировать ее.
-        <EntityType Name="TrainingInfo">
-          <Property Name="PlayerID" Type="int" />
-          <Property Name="TrainingID" Type="int" />
-          <Property Name="Goals" Type="int" />
-          <Property Name="Assists" Type="int" />
-          <Property Name="Fouls" Type="int" />
-          <Property Name="YellowCards" Type="int" />
-          <Property Name="RedCards" Type="bit" />
-          <Property Name="TimeOnField" Type="int" />
-          <Property Name="StartMinute" Type="int" />
-          <Property Name="Distance" Type="decimal" Precision="10" Scale="0" />
-          <Property Name="MVP" Type="bit" />
-          <Property Name="CoachNote" Type="nvarchar" MaxLength="450" />
-        </EntityType>-->
         <Association Name="FK_Agents_Mans">
           <End Role="Mans" Type="Self.Mans" Multiplicity="0..1" />
           <End Role="Agents" Type="Self.Agents" Multiplicity="*" />
@@ -561,7 +534,10 @@
     [PlayerInfo].[StartDate] AS [StartDate], 
     [PlayerInfo].[ExpireDate] AS [ExpireDate], 
     [PlayerInfo].[Money] AS [Money], 
-    [PlayerInfo].[ContractID] AS [ContractID]
+    [PlayerInfo].[ContractID] AS [ContractID], 
+    [PlayerInfo].[Nationality] AS [Nationality], 
+    [PlayerInfo].[ClearMoney] AS [ClearMoney], 
+    [PlayerInfo].[Description] AS [Description]
     FROM [dbo].[PlayerInfo] AS [PlayerInfo]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_Agents_Mans" Association="Self.FK_Agents_Mans">
@@ -645,8 +621,7 @@
             <End Role="PlayerSquad" EntitySet="PlayerSquad" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="FClubModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -703,6 +678,7 @@
           <NavigationProperty Name="ContractTypes" Relationship="Self.FK_Contracts_ContractTypes" FromRole="Contracts" ToRole="ContractTypes" />
           <NavigationProperty Name="Mans" Relationship="Self.FK_Contracts_Mans" FromRole="Contracts" ToRole="Mans" />
           <NavigationProperty Name="Players" Relationship="Self.FK_Contracts_Players" FromRole="Contracts" ToRole="Players" />
+          <Property Name="ClearMoney" Type="Decimal" Precision="19" Scale="4" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="ContractTypes">
           <Key>
@@ -821,7 +797,7 @@
             <PropertyRef Name="PositionID" />
           </Key>
           <Property Name="PositionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PositionName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="PositionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="PlayerPositions" Relationship="Self.FK_PlayerPositions_Positions" FromRole="Positions" ToRole="PlayerPositions" />
         </EntityType>
         <EntityType Name="Stadiums">
@@ -912,6 +888,9 @@
           <Property Name="ExpireDate" Type="DateTime" Precision="0" />
           <Property Name="Money" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="ContractID" Type="Int32" Nullable="false" />
+          <Property Name="Nationality" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+          <Property Name="ClearMoney" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Agents_Mans">
           <End Role="Mans" Type="Self.Mans" Multiplicity="0..1" />
@@ -1291,6 +1270,7 @@
           <EntitySetMapping Name="Contracts">
             <EntityTypeMapping TypeName="FClubModel.Contracts">
               <MappingFragment StoreEntitySet="Contracts">
+                <ScalarProperty Name="ClearMoney" ColumnName="ClearMoney" />
                 <ScalarProperty Name="ContractID" ColumnName="ContractID" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
@@ -1473,6 +1453,9 @@
           <EntitySetMapping Name="PlayerInfo">
             <EntityTypeMapping TypeName="FClubModel.PlayerInfo">
               <MappingFragment StoreEntitySet="PlayerInfo">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ClearMoney" ColumnName="ClearMoney" />
+                <ScalarProperty Name="Nationality" ColumnName="Nationality" />
                 <ScalarProperty Name="PlayerID" ColumnName="PlayerID" />
                 <ScalarProperty Name="ManID" ColumnName="ManID" />
                 <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />

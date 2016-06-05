@@ -18,9 +18,6 @@
         <th>
             @Html.DisplayNameFor(model => model.Mans.MiddleName)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PersonalPosition.Description)
-        </th>
         <th></th>
     </tr>
 
@@ -31,9 +28,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Mans.MiddleName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PersonalPosition.Description)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.CoachID }) |

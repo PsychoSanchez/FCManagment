@@ -210,13 +210,21 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AgentController.cs" />
+    <Compile Include="Controllers\CoachssController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MansController.cs" />
+    <Compile Include="Controllers\MatchesController.cs" />
+    <Compile Include="Controllers\NationalitiesController.cs" />
     <Compile Include="Controllers\PlayersController.cs" />
+    <Compile Include="Controllers\StadiumsController.cs" />
+    <Compile Include="Controllers\TournamentsController.cs" />
+    <Compile Include="Controllers\TrainingsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Logger.cs" />
     <Compile Include="Mans.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -406,9 +414,49 @@
     <Content Include="Views\Players\Edit.cshtml" />
     <Content Include="Views\Shared\AgentsTab.cshtml" />
     <Content Include="Views\Shared\All.cshtml" />
+    <Content Include="Views\Mans\Create.cshtml" />
+    <Content Include="Views\Mans\Delete.cshtml" />
+    <Content Include="Views\Mans\Details.cshtml" />
+    <Content Include="Views\Mans\Edit.cshtml" />
+    <Content Include="Views\Mans\Index.cshtml" />
+    <Content Include="Views\Coachss\Create.cshtml" />
+    <Content Include="Views\Coachss\Delete.cshtml" />
+    <Content Include="Views\Coachss\Details.cshtml" />
+    <Content Include="Views\Coachss\Edit.cshtml" />
+    <Content Include="Views\Coachss\Index.cshtml" />
+    <Content Include="Views\Nationalities\Create.cshtml" />
+    <Content Include="Views\Nationalities\Delete.cshtml" />
+    <Content Include="Views\Nationalities\Details.cshtml" />
+    <Content Include="Views\Nationalities\Edit.cshtml" />
+    <Content Include="Views\Nationalities\Index.cshtml" />
+    <Content Include="Views\Matches\Create.cshtml" />
+    <Content Include="Views\Matches\Delete.cshtml" />
+    <Content Include="Views\Matches\Details.cshtml" />
+    <Content Include="Views\Matches\Edit.cshtml" />
+    <Content Include="Views\Matches\Index.cshtml" />
+    <Content Include="Views\Agent\Create.cshtml" />
+    <Content Include="Views\Agent\Delete.cshtml" />
+    <Content Include="Views\Agent\Details.cshtml" />
+    <Content Include="Views\Agent\Edit.cshtml" />
+    <Content Include="Views\Agent\Index.cshtml" />
     <None Include="Views\Players\Index.cshtml" />
     <Content Include="Views\Shared\_Coach.cshtml" />
     <Content Include="Views\Shared\PlayersTab.cshtml" />
+    <Content Include="Views\Stadiums\Create.cshtml" />
+    <Content Include="Views\Stadiums\Delete.cshtml" />
+    <Content Include="Views\Stadiums\Details.cshtml" />
+    <Content Include="Views\Stadiums\Edit.cshtml" />
+    <Content Include="Views\Stadiums\Index.cshtml" />
+    <Content Include="Views\Tournaments\Create.cshtml" />
+    <Content Include="Views\Tournaments\Delete.cshtml" />
+    <Content Include="Views\Tournaments\Details.cshtml" />
+    <Content Include="Views\Tournaments\Edit.cshtml" />
+    <Content Include="Views\Tournaments\Index.cshtml" />
+    <Content Include="Views\Trainings\Create.cshtml" />
+    <Content Include="Views\Trainings\Delete.cshtml" />
+    <Content Include="Views\Trainings\Details.cshtml" />
+    <Content Include="Views\Trainings\Edit.cshtml" />
+    <Content Include="Views\Trainings\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,112 +10,107 @@ using MVCApp;
 
 namespace MVCApp.Controllers
 {
-    public class AgentsController : Controller
+    public class StadiumsController : Controller
     {
-        private FCEntities db = new FCEntities();
+        private FClubEntities db = new FClubEntities();
 
-        // GET: Agents
+        // GET: Stadiums
         public ActionResult Index()
         {
-            var agents = db.Agents.Include(a => a.Mans);
-            return View(agents.ToList());
+            return View(db.Stadiums.ToList());
         }
 
-        // GET: Agents/Details/5
+        // GET: Stadiums/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Agents agents = db.Agents.Find(id);
-            if (agents == null)
+            Stadiums stadiums = db.Stadiums.Find(id);
+            if (stadiums == null)
             {
                 return HttpNotFound();
             }
-            return View(agents);
+            return View(stadiums);
         }
 
-        // GET: Agents/Create
+        // GET: Stadiums/Create
         public ActionResult Create()
         {
-            ViewBag.ManID = new SelectList(db.Mans, "ManID", "MiddleName");
             return View();
         }
 
-        // POST: Agents/Create
+        // POST: Stadiums/Create
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AgentID,ManID,Info")] Agents agents)
+        public ActionResult Create([Bind(Include = "StadiumID,StadiumDescription,PeopleAmount,Name")] Stadiums stadiums)
         {
             if (ModelState.IsValid)
             {
-                db.Agents.Add(agents);
+                db.Stadiums.Add(stadiums);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ManID = new SelectList(db.Mans, "ManID", "MiddleName", agents.ManID);
-            return View(agents);
+            return View(stadiums);
         }
 
-        // GET: Agents/Edit/5
+        // GET: Stadiums/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Agents agents = db.Agents.Find(id);
-            if (agents == null)
+            Stadiums stadiums = db.Stadiums.Find(id);
+            if (stadiums == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ManID = new SelectList(db.Mans, "ManID", "MiddleName", agents.ManID);
-            return View(agents);
+            return View(stadiums);
         }
 
-        // POST: Agents/Edit/5
+        // POST: Stadiums/Edit/5
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AgentID,ManID,Info")] Agents agents)
+        public ActionResult Edit([Bind(Include = "StadiumID,StadiumDescription,PeopleAmount,Name")] Stadiums stadiums)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(agents).State = EntityState.Modified;
+                db.Entry(stadiums).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ManID = new SelectList(db.Mans, "ManID", "MiddleName", agents.ManID);
-            return View(agents);
+            return View(stadiums);
         }
 
-        // GET: Agents/Delete/5
+        // GET: Stadiums/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Agents agents = db.Agents.Find(id);
-            if (agents == null)
+            Stadiums stadiums = db.Stadiums.Find(id);
+            if (stadiums == null)
             {
                 return HttpNotFound();
             }
-            return View(agents);
+            return View(stadiums);
         }
 
-        // POST: Agents/Delete/5
+        // POST: Stadiums/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Agents agents = db.Agents.Find(id);
-            db.Agents.Remove(agents);
+            Stadiums stadiums = db.Stadiums.Find(id);
+            db.Stadiums.Remove(stadiums);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

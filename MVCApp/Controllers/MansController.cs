@@ -13,23 +13,59 @@ namespace MVCApp.Controllers
     public class MansController : Controller
     {
         private FClubEntities db = new FClubEntities();
-
+        bool failure = false;
+        string FMessage = string.Empty;
         // GET: Mans
         public ActionResult Index()
         {
             try
             {
-                //ViewBag.Players = db.PlayerInfo;
-                //ViewBag.Nationalities = db.Nationaites.ToList();
-                //ViewBag.Mans = db.Mans.ToList();
+                ViewBag.Players = db.PlayerInfo;
+                ViewBag.Nationalities = db.Nationalities.ToList();
+                ViewBag.Mans = db.Mans.Where(x => x.IsDeleted != true).ToList();
+                ViewBag.Failure = failure;
+                ViewBag.FMessage = FMessage;
+                failure = false;
             }
-            catch
+            catch (Exception ex)
             {
+                failure = true;
+                FMessage = Logger.WriteLog("Ошибка при загрузке страницы", ex.Message);
                 return new HttpStatusCodeResult(HttpStatusCode.Conflict, "Ошибка чтения из базы данных");
             }
             return View();
         }
-
+        [HttpPost]
+        public ActionResult Index(string SearchTerm)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(SearchTerm))
+                {
+                    ViewBag.Players = db.PlayerInfo;
+                    ViewBag.Nationalities = db.Nationalities.ToList();
+                    ViewBag.Mans = db.Mans.Where(x => x.IsDeleted != true).ToList();
+                    ViewBag.Failure = failure;
+                    ViewBag.FMessage = FMessage;
+                    failure = false;
+                }
+                else
+                {
+                    ViewBag.Players = db.PlayerInfo;
+                    ViewBag.Nationalities = db.Nationalities.ToList();
+                    ViewBag.Mans = db.Mans.Where(x => x.FirstName.StartsWith(SearchTerm) || x.MiddleName.StartsWith(SearchTerm) || x.LastName.StartsWith(SearchTerm)).ToList();
+                    ViewBag.Failure = failure;
+                    ViewBag.FMessage = FMessage;
+                    failure = false;
+                }
+                return View("Index");
+            }
+            catch (Exception ex)
+            {
+                FMessage = Logger.WriteLog("Ошибка при поиске ", ex.Message);
+                return View();
+            }
+        }
         public PartialViewResult CoachTab()
         {
             try
@@ -37,22 +73,35 @@ namespace MVCApp.Controllers
                 IEnumerable<MVCApp.Coachs> coach = db.Coachs.Where(x => x.Mans.IsDeleted != true).ToList();
                 return PartialView("_Coach", coach);
             }
-            catch
+            catch (Exception ex)
             {
+                FMessage = Logger.WriteLog("Ошибка при загрузке тренеров", ex.Message);
                 return PartialView();
             }
-
-
         }
         public PartialViewResult PlayersTab()
+        {
+            try
+            {
+                ViewBag.Players = db.PlayerInfo.Where(x => x.IsDeleted != true);
+                ViewBag.Nationalities = db.Nationalities.ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger.WriteLog("Ошибка при добавлении игрока", ex.Message);
+            }
+            return PartialView("PlayersTab", ViewBag);
+        }
+        public PartialViewResult ShowAllPlayers()
         {
             try
             {
                 ViewBag.Players = db.PlayerInfo;
                 ViewBag.Nationalities = db.Nationalities.ToList();
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.WriteLog("Ошибка при добавлении игрока", ex.Message);
             }
             return PartialView("PlayersTab", ViewBag);
         }
@@ -64,8 +113,9 @@ namespace MVCApp.Controllers
                 IEnumerable<MVCApp.Agents> agents = db.Agents.ToList();
                 return PartialView("AgentsTab", agents);
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.WriteLog("Ошибка при добавлении игрока", ex.Message);
                 return PartialView();
             }
         }
@@ -76,32 +126,26 @@ namespace MVCApp.Controllers
                 IEnumerable<MVCApp.Mans> Mans = db.Mans.Where(x => x.IsDeleted != true).ToList();
                 return PartialView("All", Mans);
             }
-            catch
+            catch (Exception ex)
             {
+                FMessage = Logger.WriteLog("Ошибка при загрузке ", ex.Message);
                 return PartialView();
             }
         }
-        [HttpPost]
-        public ActionResult All(string searchTerm)
+        public PartialViewResult AllWithDeleted()
         {
             try
             {
-                IEnumerable<MVCApp.Mans> Mans;
-                if (string.IsNullOrEmpty(searchTerm))
-                {
-                    Mans = db.Mans.Where(x => x.IsDeleted != true).ToList();
-                }
-                else
-                {
-                    Mans = db.Mans.Where(x => x.FirstName.StartsWith(searchTerm) || x.MiddleName.StartsWith(searchTerm) || x.LastName.StartsWith(searchTerm)).ToList();
-                }
+                IEnumerable<MVCApp.Mans> Mans = db.Mans.ToList();
                 return PartialView("All", Mans);
             }
-            catch
+            catch (Exception ex)
             {
+                FMessage = Logger.WriteLog("Ошибка при загрузке таблицы", ex.Message);
                 return PartialView();
             }
         }
+        
         public JsonResult FindMan(string term)
         {
             List<string> Mans;
@@ -115,11 +159,12 @@ namespace MVCApp.Controllers
         {
             try
             {
-                IEnumerable<MVCApp.Mans> Mans = db.Mans.ToList();
+                IEnumerable<MVCApp.Mans> Mans = db.Mans.Where(x => x.IsDeleted == true).ToList();
                 return PartialView("All", Mans);
             }
-            catch
+            catch (Exception ex)
             {
+                FMessage = Logger.WriteLog("Ошибка при фильтрации", ex.Message);
                 return PartialView();
             }
         }

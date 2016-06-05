@@ -1,0 +1,152 @@
+﻿@model MVCApp.Mans
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Scripts.Render("~/Scripts/jquery-2.2.3.min.js")
+<div id="MainBody">
+    < >
+    <h2 style="text-align:right">@Html.DisplayFor(model => model.MiddleName) @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h2>
+    <div>
+        <h4 style="text-align:right">@Html.DisplayFor(model => model.PersosnalPosition.Description)</h4>
+        <hr />
+        <div class="row">
+            <div class="col-md-12 column">
+                <div class="col-md-8 column">
+                    <div class="view">
+                        <div class="panel-group" id="panel-843417">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a class="panel-title" data-toggle="collapse" data-parent="#panel-843417" href="#panel-element-630167" aria-expanded="true">
+                                        Последние матчи
+                                    </a>
+                                </div>
+                                <div id="panel-element-630167" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                    <div class="panel-body">
+                                        Anim pariatur cliche...
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-843417" href="#panel-element-234183" aria-expanded="false">
+                                        Общая статистика
+                                    </a>
+                                </div>
+                                <div id="panel-element-234183" class="panel-collapse collapse in" aria-expanded="true">
+                                    <div class="panel-body">
+                                        Anim pariatur cliche...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="view col-md-4" style="background-color:InactiveBorder; border-radius: 5px;">
+                    <div class="view">
+                        <img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/" class="img-thumbnail center-block" />
+                        <div>
+                            <dl class="dl-horizontal center-block" style="margin-top:auto">
+                                <dt>
+                                    Фамилия
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.MiddleName)
+                                </dd>
+
+                                <dt>
+                                    Имя
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.FirstName)
+                                </dd>
+                                <dt>
+                                    Возраст
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.Age)
+                                </dd>
+
+                                <dt>
+                                    Дата рождения
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.Birthday)
+                                </dd>
+
+                                <dt>
+                                    Рост
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.Height)
+                                </dd>
+
+                                <dt>
+                                    Вес
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.Weight)
+                                </dd>
+
+                                <dt>
+                                    Адрес
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.Address)
+                                </dd>
+
+                                <dt>
+                                    Номер телефона
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.PhoneNumber)
+                                </dd>
+
+                                <dt>
+                                    Гражданство
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.Nationalities.Nationality)
+                                </dd>
+
+                                <dt>
+                                    Должность в клубе:
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.PersosnalPosition.Description)
+                                </dd>
+
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <a href="/Mans/Index" class="btn btn-primary">Обратно к персоналу </a>
+        <p class="pull-right">
+            <a href="/Mans/Edit/@Model.ManID" id="Edit" class="btn btn-primary" name="ManID">Контрактная информация</a>
+            <a href="/Mans/Edit/@Model.ManID" id="Edit" class="btn btn-primary" name="ManID">Редактировать</a>
+
+        </p>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#MainBody").fadeOut(0).fadeIn(1500);
+    })
+</script>

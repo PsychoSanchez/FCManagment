@@ -38,5 +38,8 @@ namespace MVCApp
         public Nullable<System.DateTime> ExpireDate { get; set; }
         public Nullable<decimal> Money { get; set; }
         public int ContractID { get; set; }
+        public string Nationality { get; set; }
+        public Nullable<decimal> ClearMoney { get; set; }
+        public string Description { get; set; }
     }
 }
