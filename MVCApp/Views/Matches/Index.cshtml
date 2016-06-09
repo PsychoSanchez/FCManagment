@@ -1,58 +1,253 @@
 ﻿@model IEnumerable<MVCApp.Matches>
-
+@using MVCApp.Controllers
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Управление списком матчей";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var ajaxtabpage = new AjaxOptions()
+    {
+        HttpMethod = "GET",
+        UpdateTargetId = "DataTable",
+        LoadingElementId = "progressbar",
+        OnBegin = "ClearTable",
+        OnComplete = "FadeInTable",
+        OnFailure = "AddAlert",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementDuration = 0
+    };
 }
+@Scripts.Render("~/Scripts/jquery-2.2.3.js")
+@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
 
-<h2>Index</h2>
+<h2>Список матчей</h2>
+<hr />
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a data-toggle="collapse" href="#collapse1">Панель управления</a>
+        </h4>
+    </div>
+    <div class="panel-collapse collapse in" id="collapse1">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-8">
+                        <div class="btn-group">
+                            @Ajax.ActionLink("Сбросить фильтр", "CoachTab", null, ajaxtabpage, new { @class = "btn btn-primary btn-sm" })
+                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>@Ajax.ActionLink("Показать победные матчи", "ShowClub", ajaxtabpage)</li>
+                                <li>@Ajax.ActionLink("Показать ничейные матчи", "ShowExpired", ajaxtabpage)</li>
+                                <li>@Ajax.ActionLink("Показать все матчи", "ShowAll", ajaxtabpage)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        @if (AutotizationController.role == 14)
+                        {
+                            @Html.ActionLink("Запланировать матч", "Create", null, new { @class = "btn btn-primary btn-sm pull-right" })
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Home)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Result)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Stadiums.StadiumDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tournaments.Name)
-        </th>
-        <th></th>
-    </tr>
+<div class="row">
+    <div class="col-md-12">
+        <div class="tabbable" id="tabs-864236">
+            <ul class="nav nav-tabs navbar-right" style="margin-right:10px" id="nope">
+                @if (AutotizationController.isAutorized)
+                {
+                    <li>
+                        @Html.ActionLink("Весь персонал", "Index", "Mans")
+                    </li>
+                }
+                <li>
+                    @Html.ActionLink("Игроки", "Index", "Players")
+                </li>
+                @if (AutotizationController.isAutorized)
+                {
+                    <li>
+                        @Html.ActionLink("Тренеры", "Index", "Coachss")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Агенты", "Index", "Agent")
+                    </li>
+                }
+                <li class="active">
+                    @Html.ActionLink("Матчи", "Index", "Matches")
+                </li>
+                @if (AutotizationController.isAutorized)
+                {
+                    <li>
+                        @Html.ActionLink("Тренировки", "Index", "Trainings")
+                    </li>
+                    if (AutotizationController.role == 14)
+                    {
+                        <li>
+                            @Html.ActionLink("Контракты", "Index", "Contracts")
+                        </li>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Home)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Result)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Stadiums.StadiumDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tournaments.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.MatchID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.MatchID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.MatchID })
-        </td>
-    </tr>
-}
+                    }
+                }
+            </ul>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            Дата проведения
+                                        </th>
+                                        <th>
+                                            Стадион
+                                        </th>
+                                        <th>
+                                            Название чемпионата
+                                        </th>
+                                        <th>
+                                            Команда соперник
+                                        </th>
+                                        <th>
+                                            Результат матча
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="DataTable">
 
-</table>
+                                    @foreach (var item in Model)
+                                    {
+                                        if (item.Result != null)
+                                        {
+                                            if (DateTime.Compare(item.Date.Value, DateTime.Now) < 0)
+                                            {
+                                                <tr class='clickable-row danger' data-url='/Matches/Details/@item.MatchID' style="cursor: pointer;">
+                                                    <td>
+                                                        @item.Date.Value.ToString("dd-MM-yyyy")
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Stadiums.Name)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Tournaments.Name) @Html.DisplayFor(modelItem => item.Tournaments.Season)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.EnemyTeam)
+                                                    </td>
+                                                    @if (item.Result == null)
+                                                    {
+                                                        <td>
+                                                            Неизвестно
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Result)
+                                                        </td>
+                                                    }
+                                                </tr>
+                                            }
+                                            else
+                                            {
+                                                <tr class='clickable-row success' data-url='/Matches/Details/@item.MatchID' style="cursor: pointer;">
+                                                    <td>
+                                                        @item.Date.Value.ToString("dd-MM-yyyy")
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Stadiums.Name)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Tournaments.Name) @Html.DisplayFor(modelItem => item.Tournaments.Season)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.EnemyTeam)
+                                                    </td>
+                                                    @if (item.Result == null)
+                                                    {
+                                                        <td>
+                                                            Неизвестно
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Result)
+                                                        </td>
+                                                    }
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr class='clickable-row info' data-url='/Matches/Details/@item.MatchID' style="cursor: pointer;">
+                                                <td>
+                                                    @item.Date.Value.ToString("dd-MM-yyyy")
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Stadiums.Name)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Tournaments.Name) @Html.DisplayFor(modelItem => item.Tournaments.Season)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.EnemyTeam)
+                                                </td>
+                                                @if (item.Result == null)
+                                                {
+                                                    <td>
+                                                        Неизвестно
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Result)
+                                                    </td>
+                                                }
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="progress" id="progressbar" style="display:none; margin-top:25px;">
+    <div class="progress-bar progress-bar-striped active" role="progressbar"
+         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+    </div>
+</div>
+<div id="alert_placeholder" style="margin-top:25px;">
+
+</div>
+<script>
+    function ClearTable() {
+        $("#DataTable").empty();
+        $("#alert_placeholder").empty();
+    }
+    function FadeInTable() {
+        $("#DataTable").fadeOut(0).fadeIn(700);
+    }
+    function AddAlert() {
+        $("#alert_placeholder").empty().html('<div class="alert alert-danger fade in"><strong>Упс!</strong> Произошла ошибка, повторите попытку позже.</div>').fadeOut(0).fadeIn(500);
+    }
+</script>
+<script>
+    jQuery(document).ready(function ($) {
+        $(".clickable-row").click(function () {
+            window.document.location = $(this).data("url");
+        });
+    });
+</script>

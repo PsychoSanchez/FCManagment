@@ -12,6 +12,8 @@ namespace MVCApp
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class FClubEntities : DbContext
     {
@@ -44,5 +46,24 @@ namespace MVCApp
         public virtual DbSet<Trainings> Trainings { get; set; }
         public virtual DbSet<CoachInfo> CoachInfo { get; set; }
         public virtual DbSet<PlayerInfo> PlayerInfo { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
+    
+        public virtual ObjectResult<GetPlayerStatistics_Result> GetPlayerStatistics(Nullable<int> playerID)
+        {
+            var playerIDParameter = playerID.HasValue ?
+                new ObjectParameter("PlayerID", playerID) :
+                new ObjectParameter("PlayerID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetPlayerStatistics_Result>("GetPlayerStatistics", playerIDParameter);
+        }
+    
+        public virtual ObjectResult<GetPlayerStat_Result1> GetPlayerStat(Nullable<int> playerID)
+        {
+            var playerIDParameter = playerID.HasValue ?
+                new ObjectParameter("PlayerID", playerID) :
+                new ObjectParameter("PlayerID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetPlayerStat_Result1>("GetPlayerStat", playerIDParameter);
+        }
     }
 }

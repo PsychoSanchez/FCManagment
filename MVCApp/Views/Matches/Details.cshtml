@@ -5,22 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Матч против команды @Model.EnemyTeam</h2>
 
 <div>
-    <h4>Matches</h4>
+    <h4>Официальные матчи</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Home)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Home)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Result)
+            Результат матча
         </dt>
 
         <dd>
@@ -28,7 +20,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Date)
+            Дата проведения матча
         </dt>
 
         <dd>
@@ -36,21 +28,27 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Stadiums.StadiumDescription)
+            Стадион
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Stadiums.StadiumDescription)
+            @Html.DisplayFor(model => model.Stadiums.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Tournaments.Name)
+            Турнир
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Tournaments.Name)
         </dd>
+        <dt>
+            Сезон
+        </dt>
 
+        <dd>
+            @Html.DisplayFor(model => model.Tournaments.Season)
+        </dd>
     </dl>
 </div>
 <p>

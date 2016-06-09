@@ -1,152 +1,256 @@
-﻿@model MVCApp.Mans
-
+﻿@model dynamic
+@using MVCApp.Controllers
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Личный профиль";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @Scripts.Render("~/Scripts/jquery-2.2.3.min.js")
 <div id="MainBody">
-    < >
-    <h2 style="text-align:right">@Html.DisplayFor(model => model.MiddleName) @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</h2>
+    <h2 style="text-align:right">@ViewBag.mans.MiddleName @ViewBag.mans.FirstName @ViewBag.mans.LastName</h2>
     <div>
-        <h4 style="text-align:right">@Html.DisplayFor(model => model.PersosnalPosition.Description)</h4>
+        <h4 style="text-align:right">@ViewBag.mans.PersosnalPosition.Description</h4>
         <hr />
         <div class="row">
             <div class="col-md-12 column">
                 <div class="col-md-8 column">
                     <div class="view">
-                        <div class="panel-group" id="panel-843417">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <a class="panel-title" data-toggle="collapse" data-parent="#panel-843417" href="#panel-element-630167" aria-expanded="true">
-                                        Последние матчи
-                                    </a>
+                        @if (ViewBag.mans.PersonalPositionID == 1)
+                        {
+                            <div class="panel-group" id="panel-843417">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <a class="panel-title" data-toggle="collapse" data-parent="#panel-843417" href="#panel-element-630167" aria-expanded="true">
+                                            Последние матчи
+                                        </a>
+                                    </div>
+                                    <div id="panel-element-630167" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                        <div class="panel-body">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            Команда соперник
+                                                        </th>
+                                                        <th>
+                                                            Голы
+                                                        </th>
+                                                        <th>
+                                                            Голевые передачи
+                                                        </th>
+                                                        <th>
+                                                            Время на поле
+                                                        </th>
+                                                        <th>
+                                                            Желтые карточки
+                                                        </th>
+                                                        <th>
+                                                            Дистанция (м)
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var s in ViewBag.LastMatch)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <a href="@Url.Action("Details","Matches",new { id=s.Matches.MatchID })">@s.Matches.EnemyTeam </a>
+                                                        </td>
+                                                        <td>
+                                                            @s.Goals
+                                                        </td>
+                                                        <td>
+                                                            @s.Assists
+                                                        </td>
+                                                        <td>
+                                                            @s.TimeOnField
+                                                        </td>
+                                                        <td>
+                                                            @s.YellowCards
+                                                        </td>
+                                                        <td>
+                                                            @s.Distance
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div id="panel-element-630167" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-                                    <div class="panel-body">
-                                        Anim pariatur cliche...
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-843417" href="#panel-element-234183" aria-expanded="false">
+                                            Общая статистика
+                                        </a>
+                                    </div>
+                                    <div id="panel-element-234183" class="panel-collapse collapse in" aria-expanded="true">
+                                        <div class="panel-body">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            Голы
+                                                        </th>
+                                                        <th>
+                                                            Голевые передачи
+                                                        </th>
+                                                        <th>
+                                                            Время на поле
+                                                        </th>
+                                                        <th>
+                                                            Желтые карточки
+                                                        </th>
+                                                        <th>
+                                                            Дистанция (м)
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var s in ViewBag.PlayerStat)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @s.Goals
+                                                        </td>
+                                                        <td>
+                                                            @s.Assists
+                                                        </td>
+                                                        <td>
+                                                            @s.PlayTime
+                                                        </td>
+                                                        <td>
+                                                            @s.YellowCards
+                                                        </td>
+                                                        <td>
+                                                            @s.Distance
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <a class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-843417" href="#panel-element-234183" aria-expanded="false">
-                                        Общая статистика
-                                    </a>
-                                </div>
-                                <div id="panel-element-234183" class="panel-collapse collapse in" aria-expanded="true">
-                                    <div class="panel-body">
-                                        Anim pariatur cliche...
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        }
+                        else
+                        {
+                            <h4>Простите... Здесь должно было быть что-то, но этого здесь нет</h4>
+                        }
                     </div>
                 </div>
-
                 <div class="view col-md-4" style="background-color:InactiveBorder; border-radius: 5px;">
-                    <div class="view">
-                        <img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/" class="img-thumbnail center-block" />
-                        <div>
-                            <dl class="dl-horizontal center-block" style="margin-top:auto">
-                                <dt>
-                                    Фамилия
-                                </dt>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="view">
+                                <img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/" class="img-thumbnail center-block" />
+                                <div>
+                                    <dl class="dl-horizontal center-block" style="margin-top:auto">
+                                        <dt>
+                                            Фамилия
+                                        </dt>
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.MiddleName)
-                                </dd>
+                                        <dd>
+                                            @ViewBag.Mans.MiddleName
+                                        </dd>
 
-                                <dt>
-                                    Имя
-                                </dt>
+                                        <dt>
+                                            Имя
+                                        </dt>
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.FirstName)
-                                </dd>
-                                <dt>
-                                    Возраст
-                                </dt>
+                                        <dd>
+                                            @ViewBag.Mans.FirstName
+                                        </dd>
+                                        <dt>
+                                            Возраст
+                                        </dt>
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.Age)
-                                </dd>
+                                        <dd>
+                                            @ViewBag.Mans.Age
+                                        </dd>
 
-                                <dt>
-                                    Дата рождения
-                                </dt>
+                                        <dt>
+                                            Дата рождения
+                                        </dt>
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.Birthday)
-                                </dd>
+                                        <dd>
+                                            @ViewBag.Mans.Birthday.ToString("dd.MM.yyyy")
+                                        </dd>
 
-                                <dt>
-                                    Рост
-                                </dt>
+                                        <dt>
+                                            Рост
+                                        </dt>
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.Height)
-                                </dd>
+                                        <dd>
+                                            @ViewBag.Mans.Height
+                                        </dd>
 
-                                <dt>
-                                    Вес
-                                </dt>
+                                        <dt>
+                                            Вес
+                                        </dt>
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.Weight)
-                                </dd>
+                                        <dd>
+                                            @ViewBag.Mans.Weight
+                                        </dd>
 
-                                <dt>
-                                    Адрес
-                                </dt>
+                                        <dt>
+                                            Адрес
+                                        </dt>
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.Address)
-                                </dd>
+                                        <dd>
+                                            @ViewBag.Mans.Address
+                                        </dd>
 
-                                <dt>
-                                    Номер телефона
-                                </dt>
+                                        <dt>
+                                            Номер телефона
+                                        </dt>
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.PhoneNumber)
-                                </dd>
+                                        <dd>
+                                            @ViewBag.Mans.PhoneNumber
+                                        </dd>
 
-                                <dt>
-                                    Гражданство
-                                </dt>
+                                        <dt>
+                                            Гражданство
+                                        </dt>
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.Nationalities.Nationality)
-                                </dd>
+                                        <dd>
+                                            @ViewBag.Mans.Nationalities.Nationality
+                                        </dd>
 
-                                <dt>
-                                    Должность в клубе:
-                                </dt>
+                                        <dt>
+                                            Должность в клубе:
+                                        </dt>
 
-                                <dd>
-                                    @Html.DisplayFor(model => model.PersosnalPosition.Description)
-                                </dd>
+                                        <dd>
+                                            @ViewBag.Mans.PersosnalPosition.Description
+                                        </dd>
 
-                            </dl>
+                                    </dl>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
 
             </div>
         </div>
         <a href="/Mans/Index" class="btn btn-primary">Обратно к персоналу </a>
         <p class="pull-right">
-            <a href="/Mans/Edit/@Model.ManID" id="Edit" class="btn btn-primary" name="ManID">Контрактная информация</a>
-            <a href="/Mans/Edit/@Model.ManID" id="Edit" class="btn btn-primary" name="ManID">Редактировать</a>
+            @if (AutotizationController.role == 1)
+            {
+                <a href="/Mans/Edit/@ViewBag.ManID" id="Edit" class="btn btn-primary" name="ManID">Контрактная информация</a>
+            }
+            @if (AutotizationController.role == 14)
+            {
+                <a href="/Log/Index" id="Edit" class="btn btn-primary" name="ManID">Журнал событий</a>
+            }
+            @if (ViewBag.Mans.ManID == AutotizationController.user)
+            {
+                <a href="/Mans/Edit/@ViewBag.Mans.ManID" id="Edit" class="btn btn-primary" name="ManID">Редактировать информацию</a>
+            }
 
         </p>
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        $("#MainBody").fadeOut(0).fadeIn(1500);
-    })
-</script>
+

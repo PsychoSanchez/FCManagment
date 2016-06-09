@@ -39,7 +39,7 @@ namespace MVCApp.Controllers
         // GET: Matches/Create
         public ActionResult Create()
         {
-            ViewBag.StadiumID = new SelectList(db.Stadiums, "StadiumID", "StadiumDescription");
+            ViewBag.StadiumID = new SelectList(db.Stadiums, "StadiumID", "Name");
             ViewBag.TournamentID = new SelectList(db.Tournaments, "TournamentID", "Name");
             return View();
         }
@@ -49,7 +49,7 @@ namespace MVCApp.Controllers
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MatchID,TournamentID,StadiumID,Home,Result,Date")] Matches matches)
+        public ActionResult Create([Bind(Include = "MatchID,TournamentID,StadiumID,Home,Result,Date,EnemyTeam")] Matches matches)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace MVCApp.Controllers
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MatchID,TournamentID,StadiumID,Home,Result,Date")] Matches matches)
+        public ActionResult Edit([Bind(Include = "MatchID,TournamentID,StadiumID,Home,Result,Date,EnemyTeam")] Matches matches)
         {
             if (ModelState.IsValid)
             {

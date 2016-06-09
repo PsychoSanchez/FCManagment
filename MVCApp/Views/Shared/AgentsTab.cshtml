@@ -1,19 +1,5 @@
 ﻿@model IEnumerable<MVCApp.Agents>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table table-hover">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Info)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Mans.MiddleName)
-        </th>
-        <th></th>
-    </tr>
-
 @foreach (var item in Model) {
     <tr>
         <td>
@@ -23,11 +9,20 @@
             @Html.DisplayFor(modelItem => item.Mans.MiddleName) @Html.DisplayFor(modelItem => item.Mans.FirstName) @Html.DisplayFor(modelItem => item.Mans.LastName)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.AgentID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.AgentID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.AgentID })
+            <div class="btn-group">
+                <a href="/Mans/Details/@item.ManID" id="Details" class="btn btn-default btn-xs" name="ManID">Профиль</a>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                        Действия <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>@Html.ActionLink("Редактировать", "Edit", new { id = item.ManID })</li>
+                        <li>
+                            @Html.ActionLink("Удалить", "Delete", new { id = item.ManID })
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </td>
     </tr>
 }
-
-</table>

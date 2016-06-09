@@ -76,12 +76,13 @@
           <Key>
             <PropertyRef Name="MatchID" />
           </Key>
-          <Property Name="MatchID" Type="int" Nullable="false" />
+          <Property Name="MatchID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TournamentID" Type="int" />
           <Property Name="StadiumID" Type="int" />
           <Property Name="Home" Type="bit" />
           <Property Name="Result" Type="nvarchar" MaxLength="50" />
           <Property Name="Date" Type="date" />
+          <Property Name="EnemyTeam" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="Nationalities">
           <Key>
@@ -181,6 +182,16 @@
           <Property Name="Duration" Type="int" />
           <Property Name="TrainInfo" Type="nvarchar" MaxLength="250" />
           <Property Name="Address" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="e-mail" Type="nvarchar" MaxLength="100" />
+          <Property Name="ManID" Type="int" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "FClub.dbo.CoachInfo" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
@@ -476,6 +487,24 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Users_Mans">
+          <End Role="Mans" Type="Self.Mans" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mans">
+              <PropertyRef Name="ManID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="ManID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GetPlayerStat" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PlayerID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetPlayerStatistics" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="PlayerID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="Хранилище FClubModelContainer">
           <EntitySet Name="Agents" EntityType="Self.Agents" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Coachs" EntityType="Self.Coachs" Schema="dbo" store:Type="Tables" />
@@ -494,6 +523,7 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tournaments" EntityType="Self.Tournaments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Trainings" EntityType="Self.Trainings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CoachInfo" EntityType="Self.CoachInfo" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [CoachInfo].[CoachID] AS [CoachID], 
@@ -620,6 +650,10 @@
             <End Role="Trainings" EntitySet="Trainings" />
             <End Role="PlayerSquad" EntitySet="PlayerSquad" />
           </AssociationSet>
+          <AssociationSet Name="FK_Users_Mans" Association="Self.FK_Users_Mans">
+            <End Role="Mans" EntitySet="Mans" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -711,6 +745,7 @@
           <NavigationProperty Name="Nationalities" Relationship="Self.FK_Mans_Nationalities" FromRole="Mans" ToRole="Nationalities" />
           <NavigationProperty Name="PersosnalPosition" Relationship="Self.FK_Mans_PersosnalPosition" FromRole="Mans" ToRole="PersosnalPosition" />
           <NavigationProperty Name="Players" Relationship="Self.FK_Players_Mans" FromRole="Mans" ToRole="Players" />
+          <NavigationProperty Name="Users" Relationship="FClubModel.FK_Users_Mans" FromRole="Mans" ToRole="Users" />
         </EntityType>
         <EntityType Name="Matches">
           <Key>
@@ -726,6 +761,7 @@
           <NavigationProperty Name="Stadiums" Relationship="Self.FK_Matches_Stadiums" FromRole="Matches" ToRole="Stadiums" />
           <NavigationProperty Name="Tournaments" Relationship="Self.FK_Matches_Tournaments" FromRole="Matches" ToRole="Tournaments" />
           <NavigationProperty Name="PlayerSquad" Relationship="Self.FK_PlayerSquad_Matches" FromRole="Matches" ToRole="PlayerSquad" />
+          <Property Name="EnemyTeam" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Nationalities">
           <Key>
@@ -1232,7 +1268,65 @@
             <End Role="Trainings" EntitySet="Trainings" />
             <End Role="PlayerSquad" EntitySet="PlayerSquad" />
           </AssociationSet>
+          <EntitySet Name="Users" EntityType="FClubModel.Users" />
+          <AssociationSet Name="FK_Users_Mans" Association="FClubModel.FK_Users_Mans">
+            <End Role="Mans" EntitySet="Mans" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <FunctionImport Name="GetPlayerStatistics" ReturnType="Collection(FClubModel.GetPlayerStatistics_Result)">
+          <Parameter Name="PlayerID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetPlayerStat" ReturnType="Collection(FClubModel.GetPlayerStat_Result1)">
+          <Parameter Name="PlayerID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="e_mail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ManID" Type="Int32" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Mans" Relationship="FClubModel.FK_Users_Mans" FromRole="Users" ToRole="Mans" />
+        </EntityType>
+        <Association Name="FK_Users_Mans">
+          <End Type="FClubModel.Mans" Role="Mans" Multiplicity="1" />
+          <End Type="FClubModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mans">
+              <PropertyRef Name="ManID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="ManID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="GetPlayerStat_Result">
+          <Property Type="Int32" Name="Column1" Nullable="true" />
+          <Property Type="Int32" Name="Column2" Nullable="true" />
+          <Property Type="Int32" Name="Column3" Nullable="true" />
+          <Property Type="Int32" Name="Column4" Nullable="true" />
+          <Property Type="Decimal" Name="Column5" Nullable="true" Precision="38" Scale="0" />
+          <Property Type="Int32" Name="Column6" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetPlayerStat_Result1">
+          <Property Type="Int32" Name="Column1" Nullable="true" />
+          <Property Type="Int32" Name="Column2" Nullable="true" />
+          <Property Type="Int32" Name="Column3" Nullable="true" />
+          <Property Type="Int32" Name="Column4" Nullable="true" />
+          <Property Type="Decimal" Name="Column5" Nullable="true" Precision="38" Scale="0" />
+          <Property Type="Int32" Name="Column6" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetPlayerStatistics_Result">
+          <Property Type="Int32" Name="Goals" Nullable="true" />
+          <Property Type="Int32" Name="Assists" Nullable="true" />
+          <Property Type="Int32" Name="PlayTime" Nullable="true" />
+          <Property Type="Int32" Name="YellowCards" Nullable="true" />
+          <Property Type="Decimal" Name="Distance" Nullable="true" Precision="38" Scale="0" />
+          <Property Type="Int32" Name="Fouls" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1315,6 +1409,7 @@
           <EntitySetMapping Name="Matches">
             <EntityTypeMapping TypeName="FClubModel.Matches">
               <MappingFragment StoreEntitySet="Matches">
+                <ScalarProperty Name="EnemyTeam" ColumnName="EnemyTeam" />
                 <ScalarProperty Name="MatchID" ColumnName="MatchID" />
                 <ScalarProperty Name="TournamentID" ColumnName="TournamentID" />
                 <ScalarProperty Name="StadiumID" ColumnName="StadiumID" />
@@ -1483,6 +1578,41 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="FClubModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="ManID" ColumnName="ManID" />
+                <ScalarProperty Name="e_mail" ColumnName="e-mail" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetPlayerStatistics" FunctionName="Хранилище FClubModel.GetPlayerStatistics" >
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="FClubModel.GetPlayerStatistics_Result">
+                <ScalarProperty Name="Goals" ColumnName="Goals" />
+                <ScalarProperty Name="Assists" ColumnName="Assists" />
+                <ScalarProperty Name="PlayTime" ColumnName="PlayTime" />
+                <ScalarProperty Name="YellowCards" ColumnName="YellowCards" />
+                <ScalarProperty Name="Distance" ColumnName="Distance" />
+                <ScalarProperty Name="Fouls" ColumnName="Fouls" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetPlayerStat" FunctionName="Хранилище FClubModel.GetPlayerStat">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="FClubModel.GetPlayerStat_Result1">
+                <ScalarProperty Name="Column1" ColumnName="Column1" />
+                <ScalarProperty Name="Column2" ColumnName="Column2" />
+                <ScalarProperty Name="Column3" ColumnName="Column3" />
+                <ScalarProperty Name="Column4" ColumnName="Column4" />
+                <ScalarProperty Name="Column5" ColumnName="Column5" />
+                <ScalarProperty Name="Column6" ColumnName="Column6" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

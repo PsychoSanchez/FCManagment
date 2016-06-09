@@ -29,10 +29,14 @@ namespace MVCApp.Controllers
                 man.LastName = string.Empty;
                 man.Height = Height;
                 man.Weight = Weight;
+                if (string.IsNullOrEmpty(PlayerName))
+                {
+                    throw new Exception("Имя не определено");
+                }
                 var playername = PlayerName.Split(' ');
                 if (playername.Length == 0)
                 {
-                    throw new Exception("»м¤ не определено");
+                    throw new Exception("Имя не определено");
                 }
                 for (int i = 0; i < playername.Length; i++)
                 {
@@ -80,11 +84,13 @@ namespace MVCApp.Controllers
             catch (Exception ex)
             {
                 failure = true;
-                FMessage = Logger.WriteLog("Ошибка при добавлении игрока", ex.Message);
+                FMessage = Logger.WriteLog("Ошибка при добавлении игрока: " + ex.Message, ex.Message);
                 db.Mans.Remove(man);
                 try
                 {
+                    db.SaveChanges();
                     db.Players.Remove(player);
+                    db.SaveChanges();
                 }
                 catch { }
                 return RedirectToAction("Index");
@@ -109,8 +115,11 @@ namespace MVCApp.Controllers
                 {
 
                     db.Mans.Remove(man);
+                    db.SaveChanges();
                     db.Players.Remove(player);
+                    db.SaveChanges();
                     db.Contracts.Remove(contract);
+                    db.SaveChanges();
                 }
                 catch { }
                 return RedirectToAction("Index");
@@ -394,7 +403,7 @@ namespace MVCApp.Controllers
                 Logger.WriteLog("Ошибка при удалении игрока", ex.Message);
             }
             Logger.WriteLog("Игрок " + players.Mans.MiddleName + " удален");
-            return View(players);
+            return View("Index");
         }
         //// POST: Players/Delete/5
         //[ValidateAntiForgeryToken]

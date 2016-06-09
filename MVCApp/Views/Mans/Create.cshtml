@@ -4,35 +4,35 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Create</h2>
+@Scripts.Render("~/Scripts/jquery-2.2.3.js")
+<h2>Добавление работника</h2>
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Mans</h4>
+        <h4></h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.MiddleName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
+        <div class="form-group has-feedback">
+            @Html.LabelFor(model => model.MiddleName, "Фамилия", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control input-required" } })
+                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                <span id="inputError2Status" class="sr-only">(error)</span>
                 @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.LabelFor(model => model.FirstName, "Имя", htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-5">
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control input-required" } })
+                <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                <span id="inputError2Status" class="sr-only">(error)</span>
                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.LastName, "Отчество (Если есть)", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
@@ -40,47 +40,24 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Birthday, "Дата рождения (Если известна)", htmlAttributes: new { @class = "control-label col-md-2"  })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control", type = "date", @Value = "1990-01-01" } })
                 @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.NationalityID, "NationalityID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.NationalityID, "Национальность", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("NationalityID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("NationalityID", null, htmlAttributes: new { @class = "form-control input-required" })
                 @Html.ValidationMessageFor(model => model.NationalityID, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Height, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Height, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Height, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Weight, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Address, "Адрес (Если есть)", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
@@ -88,7 +65,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.PhoneNumber,"Номер телефона (Если есть)", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
@@ -96,19 +73,9 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsDeleted, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.PersonalPositionID, "Должность", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsDeleted)
-                    @Html.ValidationMessageFor(model => model.IsDeleted, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PersonalPositionID, "PersonalPositionID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("PersonalPositionID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("PersonalPositionID", null, htmlAttributes: new { @class = "form-control input-required" })
                 @Html.ValidationMessageFor(model => model.PersonalPositionID, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -124,3 +91,65 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+        $(".input-required").on("focusout",
+        function () {
+            if (this.value === "") {
+
+                $(this).parent().addClass("has-error")
+                $(this).next().addClass("glyphicon-remove")
+            }
+            else {
+                $(this).parent().removeClass("has-error")
+                $(this).next().removeClass("glyphicon-remove")
+            }
+        })
+        $("input[name='Height'], input[name='Weight'],  input[name='PlayerNumber']").on("focusout", function () {
+            if (this.value === "") {
+
+            }
+            else
+                if (this.value > parseInt($(this).attr("max"))) {
+                    this.value = parseInt($(this).attr("max"));
+                }
+                else
+                    if (this.value < parseInt($(this).attr("min"))) {
+                        this.value = parseInt($(this).attr("min"));
+                    }
+        })
+        $("input[name='PlayerNumber']").on("focusout", function () {
+            if (this.value === "") {
+
+            }
+            else
+                if (this.value > parseInt($(this).attr("max"))) {
+                    this.value = parseInt($(this).attr("max"));
+                }
+                else
+                    if (this.value < parseInt($(this).attr("min"))) {
+                        this.value = parseInt($(this).attr("min"));
+                    }
+        })
+        var now = new Date();
+        var month = (now.getMonth() + 1);
+        var day = now.getDate();
+        if (month < 10)
+            month = "0" + month;
+        if (day < 10)
+            day = "0" + day;
+        var today = now.getFullYear() + '-' + month + '-' + day;
+        $('#ContractStart').val(today);
+        $('#ContractEnd').val(today);
+
+        //$('#ModalWindow').on('show.bs.modal', function (event) {
+        //    var button = $(event.relatedTarget) // Button that triggered the modal
+        //    var recipient = button.data('whatever') // Extract info from data-* attributes
+        //    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        //    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        //    var modal = $(this)
+        //    modal.find('.modal-title').text('New message to ' + recipient)
+        //    modal.find('.modal-body input').val(recipient)
+        //})
+    })
+</script>

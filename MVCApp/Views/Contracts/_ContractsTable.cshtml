@@ -1,0 +1,205 @@
+﻿@model IEnumerable<MVCApp.Contracts>
+
+@foreach (var item in Model)
+{
+    switch (@item.ContractTypeID)
+    {
+        case 1:
+            <tr>
+                <td>
+                    @item.StartDate.Value.ToString("dd-MMM-yyyy")
+                </td>
+                <td>
+                    @item.ExpireDate.Value.ToString("dd-MMM-yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Money)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tax)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClearMoney)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContractTypes.ContractTypeDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Players.Mans.MiddleName) @Html.DisplayFor(modelItem => item.Players.Mans.FirstName) @Html.DisplayFor(modelItem => item.Players.Mans.LastName)
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                            Действия <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Детали", "Details", new { id = item.ContractID })</li>
+                            <li>
+                                @Html.ActionLink("Удалить", "Delete", new { id = item.ContractID })
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            break;
+        case 2:
+            <tr>
+                <td>
+                    @item.StartDate.Value.ToString("dd-MMM-yyyy")
+                </td>
+                <td>
+                    @item.ExpireDate.Value.ToString("dd-MMM-yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Money)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tax)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClearMoney)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContractTypes.ContractTypeDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Players.Mans.MiddleName) @Html.DisplayFor(modelItem => item.Players.Mans.FirstName) @Html.DisplayFor(modelItem => item.Players.Mans.LastName)
+                </td>
+                <td>
+                    Агент: @Html.DisplayFor(modelItem => item.Agents.Mans.MiddleName) @Html.DisplayFor(modelItem => item.Agents.Mans.FirstName) @Html.DisplayFor(modelItem => item.Agents.Mans.LastName)
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                            Действия <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Детали", "Details", new { id = item.ContractID })</li>
+                            <li>
+                                @Html.ActionLink("Удалить", "Delete", new { id = item.ContractID })
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            break;
+        case 3:
+            <tr>
+                <td>
+                    @item.StartDate.Value.ToString("dd-MMM-yyyy")
+                </td>
+                <td>
+                    @item.ExpireDate.Value.ToString("dd-MMM-yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Money)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tax)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClearMoney)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContractTypes.ContractTypeDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Coachs.Mans.MiddleName) @Html.DisplayFor(modelItem => item.Coachs.Mans.FirstName) @Html.DisplayFor(modelItem => item.Coachs.Mans.LastName)
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                            Действия <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Детали", "Details", new { id = item.ContractID })</li>
+                            <li>
+                                @Html.ActionLink("Удалить", "Delete", new { id = item.ContractID })
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            break;
+        case 4:
+            <tr>
+                <td>
+                    @item.StartDate.Value.ToString("dd-MMM-yyyy")
+                </td>
+                <td>
+                    @item.ExpireDate.Value.ToString("dd-MMM-yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Money)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tax)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClearMoney)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContractTypes.ContractTypeDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Coachs.Mans.MiddleName) @Html.DisplayFor(modelItem => item.Coachs.Mans.FirstName) @Html.DisplayFor(modelItem => item.Coachs.Mans.LastName)
+                </td>
+                <td>
+                    Агент: @Html.DisplayFor(modelItem => item.Agents.Mans.MiddleName) @Html.DisplayFor(modelItem => item.Agents.Mans.FirstName) @Html.DisplayFor(modelItem => item.Agents.Mans.LastName)
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                            Действия <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Детали", "Details", new { id = item.ContractID })</li>
+                            <li>
+                                @Html.ActionLink("Удалить", "Delete", new { id = item.ContractID })
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            break;
+        case 5:
+            <tr>
+                <td>
+                    @item.StartDate.Value.ToString("dd-MMM-yyyy")
+                </td>
+                <td>
+                    @item.ExpireDate.Value.ToString("dd-MMM-yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Money)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tax)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClearMoney)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContractTypes.ContractTypeDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mans.MiddleName) @Html.DisplayFor(modelItem => item.Mans.FirstName) @Html.DisplayFor(modelItem => item.Mans.LastName)
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                            Действия <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>@Html.ActionLink("Детали", "Details", new { id = item.ContractID })</li>
+                            <li>
+                                @Html.ActionLink("Удалить", "Delete", new { id = item.ContractID })
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            break;
+    }
+
+}

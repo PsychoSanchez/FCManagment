@@ -1,5 +1,6 @@
 ﻿@model dynamic
 
+@using MVCApp.Controllers
 @{
     ViewBag.Title = "Управление игроками";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -40,20 +41,23 @@
                                 <input type="submit" class="btn btn-default btn-sm" value="Найти" />
                                 <div class="btn-group">
                                     @Ajax.ActionLink("Сбросить фильтр", "All", null, ajaxtabpage, new { @class = "btn btn-primary btn-sm" })
-                                @*<button type="button" class="btn btn-primary btn-sm">Сбросить фильтр</button>*@
-                                @*<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu"
-                                        <li>@Ajax.ActionLink("Показать всех", "AllWithDeleted", ajaxtabpage)</li>
-                                        <li>@Ajax.ActionLink("Показать только работающих", "All", ajaxtabpage)</li>
-                                        <li>@Ajax.ActionLink("Показать только уволенных", "ShowFired", ajaxtabpage)</li>
-                                    </ul>*@
+                                    @*<button type="button" class="btn btn-primary btn-sm">Сбросить фильтр</button>*@
+                                    @*<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu"
+                                            <li>@Ajax.ActionLink("Показать всех", "AllWithDeleted", ajaxtabpage)</li>
+                                            <li>@Ajax.ActionLink("Показать только работающих", "All", ajaxtabpage)</li>
+                                            <li>@Ajax.ActionLink("Показать только уволенных", "ShowFired", ajaxtabpage)</li>
+                                        </ul>*@
                                 </div>
                             </div>
                         }
                         <div class="col-md-4">
-                            <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#ModalWindow">Добавить игрока</button>
+                            @if (AutotizationController.role == 14)
+                            {
+                                <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#ModalWindow">Добавить игрока</button>
+                            }
                         </div>
                     </div>
                 </div>
@@ -73,18 +77,40 @@
             }
             <div class="tabbable" id="tabs-864236">
                 <ul class="nav nav-tabs navbar-right" style="margin-right:10px" id="nope">
-                    <li>
-                        @Html.ActionLink("Весь персонал", "Index", "Mans")
-                    </li>
+                    @if (AutotizationController.isAutorized)
+                    {
+                        <li>
+                            @Html.ActionLink("Весь персонал", "Index", "Mans")
+                        </li>
+                    }
                     <li class="active">
                         @Html.ActionLink("Игроки", "Index", "Players")
                     </li>
+                    @if (AutotizationController.isAutorized)
+                    {
+                        <li>
+                            @Html.ActionLink("Тренеры", "Index", "Coachss")
+                        </li>
+                        <li>
+                            @Html.ActionLink("Агенты", "Index", "Agent")
+                        </li>
+                    }
                     <li>
-                        @Html.ActionLink("Тренеры", "Index", "Coachss")
+                        @Html.ActionLink("Матчи", "Index", "Matches")
                     </li>
-                    <li>
-                        @Html.ActionLink("Агенты", "Index", "Agent")
-                    </li>
+                    @if (AutotizationController.isAutorized)
+                    {
+                        <li>
+                            @Html.ActionLink("Тренировки", "Index", "Trainings")
+                        </li>
+                        if (AutotizationController.role == 14)
+                        {
+                            <li>
+                                @Html.ActionLink("Контракты", "Index", "Contracts")
+                            </li>
+
+                        }
+                    }
                 </ul>
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -174,18 +200,21 @@
                                                 <td>
                                                     <div class="btn-group">
                                                         <a href="/Mans/Details/@pl.ManID" id="Details" class="btn btn-default btn-xs" name="ManID">Профиль</a>
-                                                        <div class="btn-group">
-                                                            <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
-                                                                Действия <span class="caret"></span>
-                                                            </button>
-                                                            <ul class="dropdown-menu" role="menu">
-                                                                <li><a href="#" id="Delete" value="@pl.ManID" name="ManID">Редактировать</a></li>
-                                                                <li>
-                                                                    <a href="#RemovePlayer" id="Delete" class="label-danger">Удалить</a>
-                                                                    <form id="RemovePlayer" action="/Players/Delete" method="post" value="@pl.PlayerID" name="ManID"></form>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
+                                                        @if (AutotizationController.role == 14)
+                                                        {
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                                                                    Действия <span class="caret"></span>
+                                                                </button>
+                                                                <ul class="dropdown-menu" role="menu">
+                                                                    <li><a href="/Mans/Edit/@pl.ManID" id="Edit" value="@pl.ManID" name="ManID">Редактировать</a></li>
+                                                                    <li>
+                                                                        <a href="/Mans/Delete/@pl.ManID" id="Delete" class="label-danger">Удалить</a>
+                                                                        <form id="RemovePlayer" action="/Players/Delete" method="post" value="@pl.PlayerID" name="ManID"></form>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        }
                                                     </div>
                                                 </td>
                                             </tr>

@@ -44,6 +44,8 @@
         <AssociationConnector Association="FClubModel.FK_PlayerPositions_Positions" ManuallyRouted="false" />
         <AssociationConnector Association="FClubModel.FK_PlayerSquad_Players" ManuallyRouted="false" />
         <AssociationConnector Association="FClubModel.FK_PlayerSquad_Trainings" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FClubModel.Users" Width="1.5" PointX="5.25" PointY="24.125" />
+        <AssociationConnector Association="FClubModel.FK_Users_Mans" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

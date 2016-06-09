@@ -21,6 +21,7 @@ namespace MVCApp
             this.Coachs = new HashSet<Coachs>();
             this.Contracts = new HashSet<Contracts>();
             this.Players = new HashSet<Players>();
+            this.Users = new HashSet<Users>();
         }
     
         public int ManID { get; set; }
@@ -47,5 +48,7 @@ namespace MVCApp
         public virtual PersosnalPosition PersosnalPosition { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Players> Players { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Users> Users { get; set; }
     }
 }
