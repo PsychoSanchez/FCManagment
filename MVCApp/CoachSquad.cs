@@ -19,8 +19,8 @@ namespace MVCApp
         public Nullable<int> TrainingID { get; set; }
         public Nullable<int> MatchID { get; set; }
     
+        public virtual Coachs Coachs { get; set; }
         public virtual Matches Matches { get; set; }
         public virtual Trainings Trainings { get; set; }
-        public virtual Coachs Coachs { get; set; }
     }
 }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a592ed6a090d4f07b731859528103a09" Name="Diagram1">
+        <EntityTypeShape EntityType="FClubModel.Agents" Width="1.5" PointX="5.25" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FClubModel.Coachs" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FClubModel.CoachSquad" Width="1.5" PointX="10.5" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FClubModel.Contracts" Width="1.5" PointX="7.5" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="FClubModel.ContractTypes" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FClubModel.Mans" Width="1.5" PointX="3" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FClubModel.Matches" Width="1.5" PointX="8.25" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FClubModel.Nationalities" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FClubModel.PersosnalPosition" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FClubModel.PlayerPositions" Width="1.5" PointX="7.5" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FClubModel.Players" Width="1.5" PointX="5.25" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FClubModel.PlayerSquad" Width="1.5" PointX="10.5" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FClubModel.Positions" Width="1.5" PointX="5.25" PointY="21.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FClubModel.Stadiums" Width="1.5" PointX="6" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FClubModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FClubModel.Tournaments" Width="1.5" PointX="6" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FClubModel.Trainings" Width="1.5" PointX="8.25" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="FClubModel.CoachInfo" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FClubModel.PlayerInfo" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="FClubModel.FK_Agents_Mans" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_Contracts_Agents" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_Coachs_Mans" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_CoachSquad_Coachs" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_Contracts_Coachs" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_CoachSquad_Matches" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_CoachSquad_Trainings" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_Contracts_ContractTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_Contracts_Mans" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_Contracts_Players" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_Mans_Nationalities" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_Mans_PersosnalPosition" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_Players_Mans" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_Matches_Stadiums" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_Matches_Tournaments" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_PlayerSquad_Matches" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_PlayerPositions_Players" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_PlayerPositions_Positions" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_PlayerSquad_Players" ManuallyRouted="false" />
+        <AssociationConnector Association="FClubModel.FK_PlayerSquad_Trainings" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FClubModel.Users" Width="1.5" PointX="5.25" PointY="24.125" />
+        <AssociationConnector Association="FClubModel.FK_Users_Mans" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

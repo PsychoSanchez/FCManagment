@@ -23,11 +23,14 @@ namespace MVCApp
         public Nullable<int> PlayerID { get; set; }
         public Nullable<int> CoachID { get; set; }
         public Nullable<int> AgentID { get; set; }
+        public Nullable<int> ManID { get; set; }
         public Nullable<int> ContractTypeID { get; set; }
+        public Nullable<decimal> ClearMoney { get; set; }
     
         public virtual Agents Agents { get; set; }
-        public virtual ContractTypeID ContractTypeID1 { get; set; }
-        public virtual Players Players { get; set; }
         public virtual Coachs Coachs { get; set; }
+        public virtual ContractTypes ContractTypes { get; set; }
+        public virtual Mans Mans { get; set; }
+        public virtual Players Players { get; set; }
     }
 }

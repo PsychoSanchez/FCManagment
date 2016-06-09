@@ -1,0 +1,51 @@
+﻿@model List<MVCApp.Controllers.LogController.Entity>
+@using MVCApp.Controllers
+@{
+    ViewBag.Title = "Logs";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (AutotizationController.role == 14)
+{
+    <div class="container-fluid">
+        <h2>Журнал событий</h2>
+        <hr />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Время
+                    </th>
+                    <th>
+                        Сообщение
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="DataTable">
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @item.date
+                        </td>
+                        <td>
+                            @item.Message
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="container-fluid">
+        <div class="row">
+            <div class="alert alert-danger fade in">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Упс!</strong>Неавторизованные пользователи не могут просматривать эту страничку
+            </div>
+        </div>
+    </div>
+}

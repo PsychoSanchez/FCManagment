@@ -1,0 +1,43 @@
+﻿@model MVCApp.Stadiums
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Stadiums</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StadiumDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StadiumDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PeopleAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PeopleAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.StadiumID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

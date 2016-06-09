@@ -15,22 +15,31 @@ namespace MVCApp
     public partial class PlayerInfo
     {
         public int PlayerID { get; set; }
-        public int ManID { get; set; }
-        public Nullable<decimal> TransferCost { get; set; }
-        public Nullable<short> PlayerNumber { get; set; }
+        public Nullable<int> ManID { get; set; }
         public string MiddleName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public Nullable<short> Age { get; set; }
+        public Nullable<int> Age { get; set; }
         public Nullable<System.DateTime> Birthday { get; set; }
-        public Nullable<short> Height { get; set; }
-        public Nullable<short> Weight { get; set; }
-        public string Nationality { get; set; }
+        public Nullable<int> NationalityID { get; set; }
+        public Nullable<int> Height { get; set; }
+        public Nullable<int> Weight { get; set; }
+        public string Address { get; set; }
+        public string PhoneNumber { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
+        public Nullable<int> PersonalPositionID { get; set; }
+        public Nullable<decimal> TransferCost { get; set; }
+        public Nullable<bool> TranserStatus { get; set; }
+        public Nullable<bool> NationalTeamInvite { get; set; }
+        public Nullable<bool> Injury { get; set; }
+        public Nullable<int> PlayerNumber { get; set; }
+        public string ShirtName { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> ExpireDate { get; set; }
         public Nullable<decimal> Money { get; set; }
-        public string ContractTypeDescription { get; set; }
-        public Nullable<int> ContractTypeID { get; set; }
-        public bool IsDeleted { get; set; }
+        public int ContractID { get; set; }
+        public string Nationality { get; set; }
+        public Nullable<decimal> ClearMoney { get; set; }
+        public string Description { get; set; }
     }
 }

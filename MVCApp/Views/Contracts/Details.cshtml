@@ -1,0 +1,88 @@
+﻿@model MVCApp.Contracts
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Детали контракта</h2>
+
+<div class="col-md-12">
+    <h4></h4>
+    <hr />
+    <dl class="dl-horizontal col-md-8">
+        <dt>
+            Дата заключения контракта
+        </dt>
+
+        <dd>
+            @Model.StartDate.Value.ToString("dd-MMM-yyyy")
+        </dd>
+
+        <dt>
+            Дата истечени контракта
+        </dt>
+
+        <dd>
+            @Model.ExpireDate.Value.ToString("dd-MMM-yyyy")
+        </dd>
+
+        <dt>
+           Зарплата ($ В год)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Money)
+        </dd>
+
+        <dt>
+            Налог
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tax)
+        </dd>
+
+        <dt>
+            Чистая зарплата
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClearMoney)
+        </dd>
+
+        <dt>
+            Тип контракта
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContractTypes.ContractTypeDescription)
+        </dd>
+        <dt>
+            Полное имя
+        </dt>
+        @switch (Model.ContractTypeID)
+        {
+            case 1:
+                <dd>
+                    @Html.DisplayFor(model => model.Players.Mans.MiddleName)
+                    @Html.DisplayFor(model => model.Players.Mans.FirstName)
+                    @Html.DisplayFor(model => model.Players.Mans.LastName)
+                </dd>
+                break;
+            case 3:
+                <dd>
+                    @Html.DisplayFor(model => model.Coachs.Mans.MiddleName)
+                    @Html.DisplayFor(model => model.Coachs.Mans.FirstName)
+                    @Html.DisplayFor(model => model.Coachs.Mans.LastName)
+                </dd>
+                break;
+        }
+        
+
+    </dl>
+</div>
+<p>
+    @*@Html.ActionLink("Редактировать", "Edit", new { id = Model.ContractID }, new { @class = "btn btn-primary" }) |*@
+    @Html.ActionLink("Вернуться к списку", "Index", null, new { @class = "btn btn-default" })
+</p>

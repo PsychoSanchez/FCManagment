@@ -23,13 +23,15 @@ namespace MVCApp
     
         public int MatchID { get; set; }
         public Nullable<int> TournamentID { get; set; }
-        public string Stadium { get; set; }
+        public Nullable<int> StadiumID { get; set; }
         public Nullable<bool> Home { get; set; }
         public string Result { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
+        public string EnemyTeam { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CoachSquad> CoachSquad { get; set; }
+        public virtual Stadiums Stadiums { get; set; }
         public virtual Tournaments Tournaments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PlayerSquad> PlayerSquad { get; set; }

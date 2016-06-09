@@ -18,32 +18,37 @@ namespace MVCApp
         public Mans()
         {
             this.Agents = new HashSet<Agents>();
-            this.Players = new HashSet<Players>();
             this.Coachs = new HashSet<Coachs>();
+            this.Contracts = new HashSet<Contracts>();
+            this.Players = new HashSet<Players>();
+            this.Users = new HashSet<Users>();
         }
     
         public int ManID { get; set; }
         public string MiddleName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public Nullable<short> Age { get; set; }
+        public Nullable<int> Age { get; set; }
         public Nullable<System.DateTime> Birthday { get; set; }
-        public int NationalityID { get; set; }
-        public Nullable<short> Height { get; set; }
-        public Nullable<short> Weight { get; set; }
-        public string Adress { get; set; }
+        public Nullable<int> NationalityID { get; set; }
+        public Nullable<int> Height { get; set; }
+        public Nullable<int> Weight { get; set; }
+        public string Address { get; set; }
         public string PhoneNumber { get; set; }
-        public byte[] Photo { get; set; }
-        public bool IsDeleted { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
         public Nullable<int> PersonalPositionID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Agents> Agents { get; set; }
-        public virtual Nationaites Nationaites { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Players> Players { get; set; }
-        public virtual PersonalPosition PersonalPosition { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Coachs> Coachs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Contracts> Contracts { get; set; }
+        public virtual Nationalities Nationalities { get; set; }
+        public virtual PersosnalPosition PersosnalPosition { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Players> Players { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Users> Users { get; set; }
     }
 }

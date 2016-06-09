@@ -1,0 +1,380 @@
+﻿@model IEnumerable<MVCApp.Contracts>
+@using MVCApp.Controllers
+@{
+    ViewBag.Title = "Управление контрактами";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var ajaxtabpage = new AjaxOptions()
+    {
+        HttpMethod = "GET",
+        UpdateTargetId = "DataTable",
+        LoadingElementId = "progressbar",
+        OnBegin = "ClearTable",
+        OnComplete = "FadeInTable",
+        OnFailure = "AddAlert",
+        InsertionMode = InsertionMode.Replace,
+        LoadingElementDuration = 0
+    };
+}
+@Scripts.Render("~/Scripts/jquery-2.2.3.js")
+@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+@if (AutotizationController.isAutorized)
+{
+    <h2>Управление контрактами</h2>
+    <hr />
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#collapse1">Панель управления</a>
+            </h4>
+        </div>
+        <div class="panel-collapse collapse" id="collapse1">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="btn-group">
+                            @Ajax.ActionLink("Показать только контракты с клубом", "ShowClub", null, ajaxtabpage, new { @class = "btn btn-primary btn-sm" })
+                            @Ajax.ActionLink("Показать истекшие контракты", "ShowExpired", null, ajaxtabpage, new { @class = "btn btn-primary btn-sm" })
+                            @Ajax.ActionLink("Показать все контракты", "ShowAll", null, ajaxtabpage, new { @class = "btn btn-primary btn-sm" })
+
+
+                            @*<div class="col-md-4">
+                                    <button type="button" class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#ModalWindow">Добавить агента</button>
+                                </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabbable" id="tabs-864236">
+                    <ul class="nav nav-tabs navbar-right" style="margin-right:10px" id="nope">
+                        @if (AutotizationController.isAutorized)
+                        {
+                            <li>
+                                @Html.ActionLink("Весь персонал", "Index", "Mans")
+                            </li>
+                        }
+                        <li>
+                            @Html.ActionLink("Игроки", "Index", "Players")
+                        </li>
+                        @if (AutotizationController.isAutorized)
+                        {
+                            <li>
+                                @Html.ActionLink("Тренеры", "Index", "Coachss")
+                            </li>
+                            <li>
+                                @Html.ActionLink("Агенты", "Index", "Agent")
+                            </li>
+                        }
+                        <li>
+                            @Html.ActionLink("Матчи", "Index", "Matches")
+                        </li>
+                        @if (AutotizationController.isAutorized)
+                        {
+                            <li>
+                                @Html.ActionLink("Тренировки", "Index", "Trainings")
+                            </li>
+                            if (AutotizationController.role == 14)
+                            {
+                                <li class="active">
+                                    @Html.ActionLink("Контракты", "Index", "Contracts")
+                                </li>
+
+                            }
+                        }
+                    </ul>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="tab-content">
+                                <div class="tab-pane active">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    Дата заключения
+                                                </th>
+                                                <th>
+                                                    Дата окончания
+                                                </th>
+                                                <th>
+                                                    Зарплата ($ в год)
+                                                </th>
+                                                <th>
+                                                    Налог
+                                                </th>
+                                                <th>
+                                                    Зарплата за вычетом налога
+                                                </th>
+                                                <th>
+                                                    Тип контракта
+                                                </th>
+                                                <th>
+                                                    ФИО
+                                                </th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="DataTable">
+
+                                            @foreach (var item in Model)
+                                            {
+                                                switch (@item.ContractTypeID)
+                                                {
+                                                    case 1:
+                                                        <tr>
+                                                            <td>
+                                                                @item.StartDate.Value.ToString("dd-MMM-yyyy")
+                                                            </td>
+                                                            <td>
+                                                                @item.ExpireDate.Value.ToString("dd-MMM-yyyy")
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Money)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Tax)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.ClearMoney)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.ContractTypes.ContractTypeDescription)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Players.Mans.MiddleName) @Html.DisplayFor(modelItem => item.Players.Mans.FirstName) @Html.DisplayFor(modelItem => item.Players.Mans.LastName)
+                                                            </td>
+                                                            <td>
+                                                                @if (AutotizationController.role == 14)
+                                                                {
+                                                                    <div class="btn-group">
+                                                                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                                                                            Действия <span class="caret"></span>
+                                                                        </button>
+
+                                                                        <ul class="dropdown-menu" role="menu">
+                                                                            <li>@Html.ActionLink("Детали", "Details", new { id = item.ContractID })</li>
+                                                                            <li>
+                                                                                @Html.ActionLink("Удалить", "Delete", new { id = item.ContractID })
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                        break;
+                                                    case 2:
+                                                        <tr>
+                                                            <td>
+                                                                @item.StartDate.Value.ToString("dd-MMM-yyyy")
+                                                            </td>
+                                                            <td>
+                                                                @item.ExpireDate.Value.ToString("dd-MMM-yyyy")
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Money)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Tax)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.ClearMoney)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.ContractTypes.ContractTypeDescription)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Players.Mans.MiddleName) @Html.DisplayFor(modelItem => item.Players.Mans.FirstName) @Html.DisplayFor(modelItem => item.Players.Mans.LastName)
+                                                            </td>
+                                                            <td>
+                                                                Агент: @Html.DisplayFor(modelItem => item.Agents.Mans.MiddleName) @Html.DisplayFor(modelItem => item.Agents.Mans.FirstName) @Html.DisplayFor(modelItem => item.Agents.Mans.LastName)
+                                                            </td>
+                                                            <td>
+                                                                @if (AutotizationController.role == 14)
+                                                                {
+                                                                    <div class="btn-group">
+                                                                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                                                                            Действия <span class="caret"></span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu" role="menu">
+                                                                            <li>@Html.ActionLink("Детали", "Details", new { id = item.ContractID })</li>
+                                                                            <li>
+                                                                                @Html.ActionLink("Удалить", "Delete", new { id = item.ContractID })
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                        break;
+                                                    case 3:
+                                                        <tr>
+                                                            <td>
+                                                                @item.StartDate.Value.ToString("dd-MMM-yyyy")
+                                                            </td>
+                                                            <td>
+                                                                @item.ExpireDate.Value.ToString("dd-MMM-yyyy")
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Money)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Tax)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.ClearMoney)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.ContractTypes.ContractTypeDescription)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Coachs.Mans.MiddleName) @Html.DisplayFor(modelItem => item.Coachs.Mans.FirstName) @Html.DisplayFor(modelItem => item.Coachs.Mans.LastName)
+                                                            </td>
+                                                            <td>
+                                                                @if (AutotizationController.role == 14)
+                                                                {
+                                                                    <div class="btn-group">
+                                                                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                                                                            Действия <span class="caret"></span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu" role="menu">
+                                                                            <li>@Html.ActionLink("Детали", "Details", new { id = item.ContractID })</li>
+                                                                            <li>
+                                                                                @Html.ActionLink("Удалить", "Delete", new { id = item.ContractID })
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                        break;
+                                                    case 4:
+                                                        <tr>
+                                                            <td>
+                                                                @item.StartDate.Value.ToString("dd-MMM-yyyy")
+                                                            </td>
+                                                            <td>
+                                                                @item.ExpireDate.Value.ToString("dd-MMM-yyyy")
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Money)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Tax)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.ClearMoney)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.ContractTypes.ContractTypeDescription)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Coachs.Mans.MiddleName) @Html.DisplayFor(modelItem => item.Coachs.Mans.FirstName) @Html.DisplayFor(modelItem => item.Coachs.Mans.LastName)
+                                                            </td>
+                                                            <td>
+                                                                Агент: @Html.DisplayFor(modelItem => item.Agents.Mans.MiddleName) @Html.DisplayFor(modelItem => item.Agents.Mans.FirstName) @Html.DisplayFor(modelItem => item.Agents.Mans.LastName)
+                                                            </td>
+                                                            <td>
+                                                                @if (AutotizationController.role == 14)
+                                                                {
+                                                                    <div class="btn-group">
+                                                                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                                                                            Действия <span class="caret"></span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu" role="menu">
+                                                                            <li>@Html.ActionLink("Детали", "Details", new { id = item.ContractID })</li>
+                                                                            <li>
+                                                                                @Html.ActionLink("Удалить", "Delete", new { id = item.ContractID })
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                        break;
+                                                    case 5:
+                                                        <tr>
+                                                            <td>
+                                                                @item.StartDate.Value.ToString("dd-MMM-yyyy")
+                                                            </td>
+                                                            <td>
+                                                                @item.ExpireDate.Value.ToString("dd-MMM-yyyy")
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Money)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Tax)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.ClearMoney)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.ContractTypes.ContractTypeDescription)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Mans.MiddleName) @Html.DisplayFor(modelItem => item.Mans.FirstName) @Html.DisplayFor(modelItem => item.Mans.LastName)
+                                                            </td>
+                                                            <td>
+                                                                @if (AutotizationController.role == 14)
+                                                                {
+                                                                    <div class="btn-group">
+                                                                        <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown">
+                                                                            Действия <span class="caret"></span>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu" role="menu">
+                                                                            <li>@Html.ActionLink("Детали", "Details", new { id = item.ContractID })</li>
+                                                                            <li>
+                                                                                @Html.ActionLink("Удалить", "Delete", new { id = item.ContractID })
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                        break;
+                                                }
+
+                                            }
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress" id="progressbar" style="display:none; margin-top:25px;">
+            <div class="progress-bar progress-bar-striped active" role="progressbar"
+                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+            </div>
+        </div>
+        <div id="alert_placeholder" style="margin-top:25px;">
+
+        </div>
+    </div>
+    <script>
+        function ClearTable() {
+            $("#DataTable").empty();
+            $("#alert_placeholder").empty();
+        }
+        function FadeInTable() {
+            $("#DataTable").fadeOut(0).fadeIn(700);
+        }
+        function AddAlert() {
+            $("#alert_placeholder").empty().html('<div class="alert alert-danger fade in"><strong>Упс!</strong> Произошла ошибка, повторите попытку позже.</div>').fadeOut(0).fadeIn(500);
+        }
+    </script>
+}
+else
+{
+    <div class="row">
+        <div class="alert alert-danger fade in">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Упс!</strong>Неавторизованные пользователи не могут просматривать эту страничку
+        </div>
+    </div>
+}
